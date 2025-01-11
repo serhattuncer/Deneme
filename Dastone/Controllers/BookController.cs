@@ -13,7 +13,7 @@ namespace Dastone.Controllers
 		[HttpGet]
         public async Task<IActionResult> Index()
             
-        {
+        { //serhattekstilgururlayerli
 			try
 			{
 				var response = await GenericClient.Client.GetAsync("Book/get-books");
