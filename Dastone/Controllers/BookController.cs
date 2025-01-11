@@ -13,7 +13,7 @@ namespace Dastone.Controllers
         //bookget
         //book
 		[HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index() //Index
             
         {
 			try
