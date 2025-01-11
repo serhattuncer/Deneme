@@ -14,7 +14,7 @@ namespace Dastone.Controllers
         public async Task<IActionResult> Index()
             
         {
-			try
+			try//yorum satırı 
 			{
 				var response = await GenericClient.Client.GetAsync("Book/get-books");
 				if (response.IsSuccessStatusCode)
