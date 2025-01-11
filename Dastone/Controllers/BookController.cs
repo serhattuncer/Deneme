@@ -16,7 +16,7 @@ namespace Dastone.Controllers
         {
 			try
 			{
-				var response = await GenericClient.Client.GetAsync("Book/get-books");//kitap listesi
+				var response = await GenericClient.Client.GetAsync("Book/get-books");
 				if (response.IsSuccessStatusCode)
 				{
 					var jsonresponse = await response.Content.ReadAsStringAsync();
@@ -28,7 +28,7 @@ namespace Dastone.Controllers
 				}
 				else 
 				{
-					ViewBag.ErrorMessage = "Apiden veri alınamıyor";//hata mesajı
+					ViewBag.ErrorMessage = "Apiden veri alınamıyor";
 					return View(new List<Book>());
 				}
 			}
