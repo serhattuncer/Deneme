@@ -11,11 +11,11 @@ namespace Dastone.Controllers
     public class BookController : Controller
     {
 		[HttpGet]
-        public async Task<IActionResult> Index() //Index
+        public async Task<IActionResult> Index() 
             
-        { //serhattekstilgururlayerli
+        { 
 		
-			try//yorum satırı 
+			try 
 			{
 				var response = await GenericClient.Client.GetAsync("Book/get-books");
 				if (response.IsSuccessStatusCode)
@@ -29,8 +29,8 @@ namespace Dastone.Controllers
 				}
 				else 
 				{
-					ViewBag.ErrorMessage = "Apiden veri alınamıyor"; //hi serhat how are you today ?
-					return View(new List<Book>());//abcdefghjklmnoprstuvyz
+					ViewBag.ErrorMessage = "Apiden veri alınamıyor"; 
+					return View(new List<Book>());
 				}
 			}
 			catch (Exception ex)
