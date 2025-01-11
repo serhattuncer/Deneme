@@ -16,7 +16,7 @@ namespace Dastone.Controllers
         {
 			try
 			{
-				var response = await GenericClient.Client.GetAsync("Book/get-books");
+				var response = await GenericClient.Client.GetAsync("Book/get-books");//kitap listesi
 				if (response.IsSuccessStatusCode)
 				{
 					var jsonresponse = await response.Content.ReadAsStringAsync();
