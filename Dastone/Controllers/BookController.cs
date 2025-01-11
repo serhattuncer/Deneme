@@ -10,11 +10,13 @@ namespace Dastone.Controllers
 {
     public class BookController : Controller
     {
+        //bookget
+        //book
 		[HttpGet]
         public async Task<IActionResult> Index()
             
         {
-			try//yorum satırı 
+			try
 			{
 				var response = await GenericClient.Client.GetAsync("Book/get-books");
 				if (response.IsSuccessStatusCode)
