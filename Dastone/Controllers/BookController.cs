@@ -14,8 +14,7 @@ namespace Dastone.Controllers
         public async Task<IActionResult> Index() //Index
             
         { //serhattekstilgururlayerli
-			try
-        {//yorum satırı 2
+		
 			try//yorum satırı 
 			{
 				var response = await GenericClient.Client.GetAsync("Book/get-books");
