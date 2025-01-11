@@ -10,8 +10,10 @@ namespace Dastone.Controllers
 {
     public class BookController : Controller
     {
+        //bookget
+        //book
 		[HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index() //Index
             
         { //serhattekstilgururlayerli
 			try
