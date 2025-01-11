@@ -1,0 +1,30 @@
+{
+  "profiles": {
+    "Dastone": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "http://localhost:5292",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "LAUNCH_BROWSER_ARGS": "--profile-directory=Default"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:5292"
+    },
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  },
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:63880",
+      "sslPort": 0
+    }
+  }
+}
