@@ -28,7 +28,7 @@ namespace Dastone.Controllers
 				}
 				else 
 				{
-					ViewBag.ErrorMessage = "Apiden veri alınamıyor";
+					ViewBag.ErrorMessage = "Apiden veri alınamıyor";//hata mesajı
 					return View(new List<Book>());
 				}
 			}
