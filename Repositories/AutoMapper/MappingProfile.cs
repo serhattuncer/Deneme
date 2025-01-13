@@ -16,6 +16,9 @@ namespace Repositories.AutoMapper
            CreateMap<BookDto,Book>().ReverseMap();
            CreateMap<AuthorDto,Author>().ReverseMap();
            CreateMap<PublishingHouseDto,PublishingHouse>().ReverseMap();
+           CreateMap<UsersDto,Users>().ReverseMap();
+           CreateMap<RolesDto, Roles>().ReverseMap();
+            CreateMap<ClaimsDto, Claims>().ReverseMap();
         }
     }
 }

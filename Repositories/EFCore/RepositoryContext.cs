@@ -11,11 +11,14 @@ using System.Threading.Tasks;
 
 namespace Repositories.EFCore
 {
-    public class RepositoryContext : IdentityDbContext
+    public class RepositoryContext : DbContext
     {
         public DbSet<Book> Books { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<PublishingHouse> PublishingHouses { get; set; }
+        public DbSet<Users> Users { get; set; }
+        public DbSet<Roles> Roles { get; set; }
+        public DbSet<Claims> Claims { get; set; }
         public RepositoryContext(DbContextOptions<RepositoryContext> Options) : base(Options)
         {
 

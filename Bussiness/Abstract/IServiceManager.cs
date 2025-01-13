@@ -11,6 +11,9 @@ namespace Services.Abstract
         IServiceBook book { get; }
         IAuthorService author { get; }
         IPublishingHouseService publishingHouse { get; }
+        IUserService users { get; }
+        IRoleService role { get; }
+        IClaimService claim { get; }
        
     }
 }

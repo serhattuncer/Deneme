@@ -19,16 +19,28 @@ namespace Presentation.Extension
             Services.AddScoped<IRepositoryBook, RepositoryBook>();
             Services.AddScoped<IRepositoryAuthor, RepositoryAuthor>();
             Services.AddScoped<IRepositoryPublishingHouse, RepositoryPublishingHouse>();
+            Services.AddScoped<IRepositoryUsers, RepositoryUsers>();
+            Services.AddScoped<IRepositoryRoles, RepositoryRoles>();
+            Services.AddScoped<IRepositoryClaims, RepositoryClaims>();
+
             Services.AddScoped<IRepositoryManager, RepositoryManager>();
+
             Services.AddScoped<IGenericRepository<Book>,GenericRepository<Book>>();
             Services.AddScoped<IGenericRepository<Author>, GenericRepository<Author>>();
             Services.AddScoped<IGenericRepository<PublishingHouse>, GenericRepository<PublishingHouse>>();
+            Services.AddScoped<IGenericRepository<Users>, GenericRepository<Users>>();
+            Services.AddScoped<IGenericRepository<Roles>, GenericRepository<Roles>>();
+            Services.AddScoped<IGenericRepository<Claims>, GenericRepository<Claims>>();
         }
         public static void ConfiguerServiceManager(this IServiceCollection Services)
         {
             Services.AddScoped<IServiceBook, ServiceBook>();
             Services.AddScoped<IAuthorService, AuthorService>();
             Services.AddScoped<IPublishingHouseService, PublishingHouseService>();
+            Services.AddScoped<IUserService, UserService>();
+            Services.AddScoped<IRoleService, RoleService>();
+            Services.AddScoped<IClaimService, ClaimService>();
+
             Services.AddScoped<IServiceManager, ServiceManager>();
         }
     }

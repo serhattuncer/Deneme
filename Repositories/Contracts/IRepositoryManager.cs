@@ -11,6 +11,9 @@ namespace Repositories.Contracts
         IRepositoryBook book { get; }
         IRepositoryAuthor author { get; }
         IRepositoryPublishingHouse Publishinghouse { get; }
+        IRepositoryUsers User { get; }
+        IRepositoryRoles Role { get; }
+        IRepositoryClaims Claim { get; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken());
 
     }

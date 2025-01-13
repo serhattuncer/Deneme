@@ -90,7 +90,7 @@ namespace Presentation.Controllers
         {
             try
             {
-                Log.Information("İnformation Delete Book");
+                Log.Information("İnformation Update Book");
                 await _manager.book.UpdateBook(bookDto);
                 return NoContent();
             }
