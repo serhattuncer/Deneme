@@ -19,6 +19,8 @@ namespace Repositories.EFCore
         public DbSet<Users> Users { get; set; }
         public DbSet<Roles> Roles { get; set; }
         public DbSet<Claims> Claims { get; set; }
+        public DbSet<RoleClaims> RoleClaims { get; set; }
+        public DbSet<UserClaims> UserClaims { get; set; }
         public RepositoryContext(DbContextOptions<RepositoryContext> Options) : base(Options)
         {
 

@@ -22,6 +22,8 @@ namespace Presentation.Extension
             Services.AddScoped<IRepositoryUsers, RepositoryUsers>();
             Services.AddScoped<IRepositoryRoles, RepositoryRoles>();
             Services.AddScoped<IRepositoryClaims, RepositoryClaims>();
+            Services.AddScoped<IRepositoryUserClaims, RepositoryUserClaims>();
+            Services.AddScoped<IRepositoryRoleClaims, RepositoryRoleClaims>();
 
             Services.AddScoped<IRepositoryManager, RepositoryManager>();
 
@@ -31,6 +33,8 @@ namespace Presentation.Extension
             Services.AddScoped<IGenericRepository<Users>, GenericRepository<Users>>();
             Services.AddScoped<IGenericRepository<Roles>, GenericRepository<Roles>>();
             Services.AddScoped<IGenericRepository<Claims>, GenericRepository<Claims>>();
+            Services.AddScoped<IGenericRepository<UserClaims>, GenericRepository<UserClaims>>();
+            Services.AddScoped<IGenericRepository<RoleClaims>, GenericRepository<RoleClaims>>();
         }
         public static void ConfiguerServiceManager(this IServiceCollection Services)
         {
@@ -40,6 +44,8 @@ namespace Presentation.Extension
             Services.AddScoped<IUserService, UserService>();
             Services.AddScoped<IRoleService, RoleService>();
             Services.AddScoped<IClaimService, ClaimService>();
+            Services.AddScoped<IUserClaimsService, UserClaimsService>();
+            Services.AddScoped<IRoleClaimsService, RoleClaimsService>();
 
             Services.AddScoped<IServiceManager, ServiceManager>();
         }

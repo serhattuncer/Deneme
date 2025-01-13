@@ -9,16 +9,18 @@ using System.Threading.Tasks;
 
 namespace Repositories.AutoMapper
 {
-    public class MappingProfile:Profile
+    public class MappingProfile : Profile
     {
         public MappingProfile()
         {
-           CreateMap<BookDto,Book>().ReverseMap();
-           CreateMap<AuthorDto,Author>().ReverseMap();
-           CreateMap<PublishingHouseDto,PublishingHouse>().ReverseMap();
-           CreateMap<UsersDto,Users>().ReverseMap();
-           CreateMap<RolesDto, Roles>().ReverseMap();
+            CreateMap<BookDto, Book>().ReverseMap();
+            CreateMap<AuthorDto, Author>().ReverseMap();
+            CreateMap<PublishingHouseDto, PublishingHouse>().ReverseMap();
+            CreateMap<UsersDto, Users>().ReverseMap();
+            CreateMap<RolesDto, Roles>().ReverseMap();
             CreateMap<ClaimsDto, Claims>().ReverseMap();
+            CreateMap<UserClaimsDto, UserClaims>().ReverseMap();
+            CreateMap<RoleClaimsDto, RoleClaims>().ReverseMap();
         }
     }
 }

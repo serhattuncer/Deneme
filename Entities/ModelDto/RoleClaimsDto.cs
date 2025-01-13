@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities.Models
+namespace Entities.ModelDto
 {
-    public class RoleClaims:BaseEntity
+    public class RoleClaimsDto
     {
-        [Key]
         public int RoleClaims_Id { get; set; }
-        public int Claims_Id {  get; set; }
+        public int Claims_Id { get; set; }
         public int Role_Id { get; set; }
     }
 }
