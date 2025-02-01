@@ -16,5 +16,6 @@ namespace Services.Abstract
         IClaimService claim { get; }
         IRoleClaimsService roleclaim { get; }
         IUserClaimsService userclaim { get; }
+        IUserRolesService userrole { get; }
     }
 }

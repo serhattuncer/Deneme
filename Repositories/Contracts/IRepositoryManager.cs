@@ -16,6 +16,7 @@ namespace Repositories.Contracts
         IRepositoryClaims Claim { get; }
         IRepositoryRoleClaims RoleClaims { get; }
         IRepositoryUserClaims UserClaims { get; }
+        IRepositoryUserRoles UserRoles { get; }    
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken());
 
     }

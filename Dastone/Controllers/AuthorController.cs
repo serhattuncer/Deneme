@@ -53,7 +53,7 @@ namespace Dastone.Controllers
                 }
             }
         }
-        [HttpPut]
+        [HttpPost]
         public async Task Update([FromBody] Author author)
         {
             if (ModelState.IsValid)
@@ -71,7 +71,7 @@ namespace Dastone.Controllers
                 }
             }
         }
-        [HttpDelete]
+        [HttpPost]
         public async Task Delete([FromBody] int Id)
         {
             if (ModelState.IsValid)

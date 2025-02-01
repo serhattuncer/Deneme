@@ -1,4 +1,5 @@
-﻿using Entities.ModelDto;
+﻿
+using Entities.ModelDto;
 using Entities.Models;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,7 @@ namespace Services.Abstract
         Task CreateUserClaim(UserClaimsDto userclaimsDto);
         Task UpdateUserClaim(UserClaimsDto userclaimsDto);
         Task DeleteUserClaim(int id);
+        Task DeleteUserClaimList(int UserId);
+        Task CreateUserClaimList(UserClaimsListDto userClaimsListDto);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Entities.ModelDto;
+﻿
+using Entities.ModelDto;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
@@ -40,9 +41,31 @@ namespace Presentation.Controllers
             }
 
         }
+        [HttpPost("get-user-claims-by-userid/{id}")]
+        public async Task<IActionResult> GetListByUserId(int id)
+        {
+            try
+            {
+                Log.Information("İnformation Get UserClaims");
+                var list =  _manager.userclaim.GetAllUserClaims().Result.Where(w => w.IsDeleted == false&& w.User_Id==id).ToList();
+                if (list is null)
+                {
+                    return NotFound("Veri Bulunamadı.");
+                }
+
+                return Ok(list);
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Error Get UserClaims");
+                throw new Exception("Error Message:{0}", ex);
+            }
+
+        }
 
 
-        [HttpGet("get-userclaim-by-id{id}")]
+        [HttpGet("get-userclaim-by-id/{id}")]
         public async Task<IActionResult> GetUserClaimById(int id)
         {
             try
@@ -64,13 +87,13 @@ namespace Presentation.Controllers
         }
 
 
-        [HttpPost("create-userclaim")]
-        public async Task<IActionResult> CreateUserClaim(UserClaimsDto userclaimsDto)
+        [HttpPost("create-userclaim-list")]
+        public async Task<IActionResult> CreateUserClaim(UserClaimsListDto userclaimsDto)
         {
             try
             {
                 Log.Information("İnformation Create UserClaim");
-                await _manager.userclaim.CreateUserClaim(userclaimsDto);
+                await _manager.userclaim.CreateUserClaimList(userclaimsDto);
                 return Ok();
             }
             catch (Exception ex)
@@ -89,7 +112,7 @@ namespace Presentation.Controllers
             try
             {
                 Log.Information("İnformation Update UserClaim");
-                await _manager.userclaim.CreateUserClaim(userclaimsDto);
+                await _manager.userclaim.UpdateUserClaim(userclaimsDto);
                 return NoContent();
             }
             catch (Exception ex)
@@ -103,12 +126,12 @@ namespace Presentation.Controllers
 
 
         [HttpPost("delete-userclaim/{id}")]
-        public async Task<IActionResult> DeleteUserClaim(int id)
+        public async Task<IActionResult> DeleteUserClaimList(int id)
         {
             try
             {
                 Log.Information("İnformation Delete UserClaim");
-                await _manager.userclaim.DeleteUserClaim(id);
+                await _manager.userclaim.DeleteUserClaimList(id);
                 return NoContent();
             }
             catch (Exception ex)
@@ -119,5 +142,6 @@ namespace Presentation.Controllers
             }
 
         }
+        
     }
 }

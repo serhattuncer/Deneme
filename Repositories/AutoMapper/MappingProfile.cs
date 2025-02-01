@@ -21,6 +21,7 @@ namespace Repositories.AutoMapper
             CreateMap<ClaimsDto, Claims>().ReverseMap();
             CreateMap<UserClaimsDto, UserClaims>().ReverseMap();
             CreateMap<RoleClaimsDto, RoleClaims>().ReverseMap();
+            CreateMap<UserRolesDto, UserRoles>().ReverseMap();
         }
     }
 }

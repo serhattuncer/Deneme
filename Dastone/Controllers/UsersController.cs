@@ -16,6 +16,7 @@ namespace Dastone.Controllers
             try
             {
                 var response = await GenericClient.Client.GetAsync("User/get-users");
+
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonresponse = await response.Content.ReadAsStringAsync();
@@ -37,6 +38,7 @@ namespace Dastone.Controllers
                 return View("Error");
             }
         }
+       
         [HttpPost]
         public async Task Create([FromBody] Users users)
         {
@@ -56,7 +58,7 @@ namespace Dastone.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpPost]
         public async Task Update([FromBody] Users users)
         {
             if (ModelState.IsValid)
@@ -74,7 +76,7 @@ namespace Dastone.Controllers
                 }
             }
         }
-        [HttpDelete]
+        [HttpPost]
         public async Task Delete([FromBody] int Id)
         {
             if (ModelState.IsValid)
@@ -92,6 +94,132 @@ namespace Dastone.Controllers
 
                     throw;
                 }
+            }
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> GetUserClaimsById(int id)
+        {
+            try
+            {
+                var jsonData = JsonConvert.SerializeObject(id);
+                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+                string url = "UserClaims/get-user-claims-by-userid";
+                string fulurl = $"{url}/{id}";
+                var response = await GenericClient.Client.PostAsync(fulurl, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonresponse = await response.Content.ReadAsStringAsync();
+                    var model = System.Text.Json.JsonSerializer.Deserialize<List<Claims>>(jsonresponse, new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    });
+                    List<int> claimsIds = model.Select(s => s.Claims_Id).ToList();
+                    return Json(claimsIds);
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "Apiden veri alınamıyor";
+                    return Json(new List<Claims>());
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return Json("Error");
+            }
+
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> GetClaims()
+        {
+
+            try
+            {
+                var response = await GenericClient.Client.GetAsync("Claim/get-claims");
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonresponse = await response.Content.ReadAsStringAsync();
+                    var model = System.Text.Json.JsonSerializer.Deserialize<List<Claims>>(jsonresponse, new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    });
+                    return Json(model);
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "Apiden veri alınamıyor";
+                    return Json(new List<Claims>());
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return Json("Error");
+            }
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> GetUserRolesById(int id)
+        {
+            try
+            {
+                var jsonData = JsonConvert.SerializeObject(id);
+                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+                string url = "UserRoles/get-user-roles-by-userroleid";
+                string fulurl = $"{url}/{id}";
+                var response = await GenericClient.Client.PostAsync(fulurl, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonresponse = await response.Content.ReadAsStringAsync();
+                    var model = System.Text.Json.JsonSerializer.Deserialize<List<Roles>>(jsonresponse, new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    });
+                    List<int> rolesIds = model.Select(s => s.Role_Id).ToList();
+                    return Json(rolesIds);
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "Apiden veri alınamıyor";
+                    return Json(new List<Claims>());
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return Json("Error");
+            }
+
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> GetRoles()
+        {
+
+            try
+            {
+                var response = await GenericClient.Client.GetAsync("Role/get-roles");
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonresponse = await response.Content.ReadAsStringAsync();
+                    var model = System.Text.Json.JsonSerializer.Deserialize<List<Roles>>(jsonresponse, new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    });
+                    return Json(model);
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "Apiden veri alınamıyor";
+                    return Json(new List<Roles>());
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return Json("Error");
             }
         }
     }

@@ -6,23 +6,23 @@ using Services.Abstract;
 
 namespace Presentation.Controllers
 {
-    [Route("RoleClaims")]
+    [Route("UserRoles")]
     [ApiController]
-    public class RoleClaimsController : ControllerBase
+    public class UserRolesController : ControllerBase
     {
         private readonly IServiceManager _manager;
 
-        public RoleClaimsController(IServiceManager manager)
+        public UserRolesController(IServiceManager manager)
         {
             _manager = manager;
         }
-        [HttpGet("get-roleclaims")]
+        [HttpGet("get-userroles")]
         public async Task<IActionResult> GetList()
         {
             try
             {
-                Log.Information("İnformation Get RoleClaims");
-                var list = _manager.roleclaim.GetAllRoleClaims().Result.Where(w => w.IsDeleted == false).ToList();
+                Log.Information("İnformation Get UserRoles");
+                var list = _manager.userrole.GetAllUserRoles().Result.Where(w => w.IsDeleted == false).ToList();
                 if (list is null)
                 {
                     return NotFound("Veri Bulunamadı.");
@@ -35,44 +35,43 @@ namespace Presentation.Controllers
             }
             catch (Exception ex)
             {
-                Log.Error("Error Get RoleClaims");
+                Log.Error("Error Get UserRoles");
                 throw new Exception("Error Message:{0}", ex);
             }
 
         }
-        [HttpPost("get-role-claims-by-roleid/{id}")]
-        public async Task<IActionResult> GetListByUserId(int id)
+        
+        [HttpPost("get-user-roles-by-userroleid/{id}")]
+        public async Task<IActionResult> GetListByUserRoleId(int id)
         {
             try
             {
-                Log.Information("İnformation Get UserClaims");
-                var list = _manager.roleclaim.GetAllRoleClaims().Result.Where(w => w.IsDeleted == false && w.Role_Id == id).ToList();
+                Log.Information("İnformation Get UserRolesById");
+                var list = _manager.userrole.GetAllUserRoles().Result.Where(w => w.IsDeleted == false && w.User_Id == id).ToList();
                 if (list is null)
                 {
                     return NotFound("Veri Bulunamadı.");
                 }
-
-
 
                 return Ok(list);
 
             }
             catch (Exception ex)
             {
-                Log.Error("Error Get UserClaims");
+                Log.Error("Error Get İnformation Get UserRolesById");
                 throw new Exception("Error Message:{0}", ex);
             }
 
         }
 
 
-        [HttpGet("get-roleclaim-by-id{id}")]
-        public async Task<IActionResult> GetRoleClaimById(int id)
+        [HttpGet("get-userrole-by-id/{id}")]
+        public async Task<IActionResult> GetUserRoleById(int id)
         {
             try
             {
-                Log.Information("İnformation Get RoleClaimById");
-                var result = await _manager.roleclaim.GetRoleClaimById(id);
+                Log.Information("İnformation Get UserRoleById");
+                var result = await _manager.userrole.GetUserRoleById(id);
                 if (result is null)
                 {
                     return NotFound(id + "Numaralı Id'ye ait veri bulunamadı.");
@@ -81,64 +80,64 @@ namespace Presentation.Controllers
             }
             catch (Exception ex)
             {
-                Log.Error("Error Get RoleClaimById");
+                Log.Error("Error Get UserRoleById");
                 throw new Exception("Error Message:{0}", ex); ;
             }
 
         }
 
 
-        [HttpPost("create-roleclaim")]
-        public async Task<IActionResult> CreateRoleClaim(RoleClaimsDto roleclaimsDto)
+        [HttpPost("create-userrole")]
+        public async Task<IActionResult> CreateUserRole(UserRolesDto userrolesDto)
         {
             try
             {
-                Log.Information("İnformation Create RoleClaim");
-                await _manager.roleclaim.CreateRoleClaim(roleclaimsDto);
+                Log.Information("İnformation Create UserRole");
+                await _manager.userrole.CreateUserRole(userrolesDto);
                 return Ok();
             }
             catch (Exception ex)
             {
 
-                Log.Error("Error Create RoleClaim");
+                Log.Error("Error Create UserRole");
                 throw new Exception("Error Message:{0}", ex);
             }
 
         }
 
 
-        [HttpPut("update-roleclaim")]
-        public async Task<IActionResult> UpdateRoleClaim(RoleClaimsDto roleclaimsDto)
+        [HttpPut("update-userrole")]
+        public async Task<IActionResult> UpdateUserRole(UserRolesDto userrolesDto)
         {
             try
             {
-                Log.Information("İnformation Update RoleClaim");
-                await _manager.roleclaim.CreateRoleClaim(roleclaimsDto);
+                Log.Information("İnformation Update UserRole");
+                await _manager.userrole.UpdateUserRole(userrolesDto);
                 return NoContent();
             }
             catch (Exception ex)
             {
 
-                Log.Error("Error Update RoleClaim");
+                Log.Error("Error Update UserRole");
                 throw new Exception("Error Message:{0}", ex);
             }
 
         }
 
 
-        [HttpPost("delete-roleclaim/{id}")]
-        public async Task<IActionResult> DeleteRoleClaim(int id)
+        [HttpPost("delete-userrole/{id}")]
+        public async Task<IActionResult> DeleteUserRole(int id)
         {
             try
             {
-                Log.Information("İnformation Delete RoleClaim");
-                await _manager.roleclaim.DeleteRoleClaim(id);
+                Log.Information("İnformation Delete UserRole");
+                await _manager.userrole.DeleteUserRole(id);
                 return NoContent();
             }
             catch (Exception ex)
             {
 
-                Log.Error("Error Delete RoleClaim");
+                Log.Error("Error Delete UserRole");
                 throw new Exception("Error Message:{0}", ex);
             }
 

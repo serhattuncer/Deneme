@@ -26,9 +26,6 @@ namespace Presentation.Controllers
                 {
                     return NotFound("Veri Bulunamadı.");
                 }
-
-
-
                 return Ok(list);
 
             }

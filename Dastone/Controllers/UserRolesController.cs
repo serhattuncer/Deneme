@@ -2,23 +2,25 @@
 using Dastone.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Text;
 using System.Text.Json;
+using System.Text;
 
 namespace Dastone.Controllers
 {
-    public class PublishingHouseController : Controller
+    public class UserRolesController : Controller
     {
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+
             try
             {
-                var response = await GenericClient.Client.GetAsync("PublishingHouse/get-publishinghouses");
+                var response = await GenericClient.Client.GetAsync("UserRoles/get-userroles");
+
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonresponse = await response.Content.ReadAsStringAsync();
-                    var model = System.Text.Json.JsonSerializer.Deserialize<List<PublishingHouse>>(jsonresponse, new JsonSerializerOptions
+                    var model = System.Text.Json.JsonSerializer.Deserialize<List<UserRoles>>(jsonresponse, new JsonSerializerOptions
                     {
                         PropertyNameCaseInsensitive = true
                     });
@@ -27,7 +29,7 @@ namespace Dastone.Controllers
                 else
                 {
                     ViewBag.ErrorMessage = "Apiden veri alınamıyor";
-                    return View(new List<PublishingHouse>());
+                    return View(new List<UserRoles>());
                 }
             }
             catch (Exception ex)
@@ -37,15 +39,15 @@ namespace Dastone.Controllers
             }
         }
         [HttpPost]
-        public async Task Create([FromBody] PublishingHouse publishingHouse )
+        public async Task Create([FromBody] UserRoles userRoles)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var jsonData = JsonConvert.SerializeObject(publishingHouse);
+                    var jsonData = JsonConvert.SerializeObject(userRoles);
                     var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-                    await GenericClient.Client.PostAsync("PublishingHouse/create-publishinghouse", content);
+                    await GenericClient.Client.PostAsync("UserRoles/create-userrole", content);
                 }
                 catch (Exception ex)
                 {
@@ -54,16 +56,17 @@ namespace Dastone.Controllers
                 }
             }
         }
+
         [HttpPost]
-        public async Task Update([FromBody] PublishingHouse publishingHouse)
+        public async Task Update([FromBody] UserRoles userRoles)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var jsonData = JsonConvert.SerializeObject(publishingHouse);
+                    var jsonData = JsonConvert.SerializeObject(userRoles);
                     var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-                    await GenericClient.Client.PutAsync("PublishingHouse/update-publishinghouse", content);
+                    await GenericClient.Client.PutAsync("UserRoles/update-userrole", content);
                 }
                 catch (Exception ex)
                 {
@@ -81,7 +84,7 @@ namespace Dastone.Controllers
                 {
                     var jsonData = JsonConvert.SerializeObject(Id);
                     var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-                    string url = " PublishingHouse/delete-publishinghouse";
+                    string url = "UserRoles/delete-userrole";
                     string fulurl = $"{url}/{Id}";
                     await GenericClient.Client.PostAsync(fulurl, content);
                 }

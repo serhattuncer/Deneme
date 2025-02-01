@@ -2,23 +2,26 @@
 using Dastone.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Text;
 using System.Text.Json;
+using System.Text;
+using System.Linq;
 
 namespace Dastone.Controllers
 {
-    public class PublishingHouseController : Controller
+    public class UserClaimsController : Controller
     {
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+
             try
             {
-                var response = await GenericClient.Client.GetAsync("PublishingHouse/get-publishinghouses");
+                var response = await GenericClient.Client.GetAsync("UserClaims/get-userclaims");
+
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonresponse = await response.Content.ReadAsStringAsync();
-                    var model = System.Text.Json.JsonSerializer.Deserialize<List<PublishingHouse>>(jsonresponse, new JsonSerializerOptions
+                    var model = System.Text.Json.JsonSerializer.Deserialize<List<UserClaims>>(jsonresponse, new JsonSerializerOptions
                     {
                         PropertyNameCaseInsensitive = true
                     });
@@ -27,7 +30,7 @@ namespace Dastone.Controllers
                 else
                 {
                     ViewBag.ErrorMessage = "Apiden veri alınamıyor";
-                    return View(new List<PublishingHouse>());
+                    return View(new List<UserClaims>());
                 }
             }
             catch (Exception ex)
@@ -37,15 +40,16 @@ namespace Dastone.Controllers
             }
         }
         [HttpPost]
-        public async Task Create([FromBody] PublishingHouse publishingHouse )
-        {
+        public async Task Create([FromBody] UserClaimsDto userClaims)
+        {   
+            
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var jsonData = JsonConvert.SerializeObject(publishingHouse);
+                    var jsonData = JsonConvert.SerializeObject(userClaims);
                     var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-                    await GenericClient.Client.PostAsync("PublishingHouse/create-publishinghouse", content);
+                    await GenericClient.Client.PostAsync("UserClaims/create-userclaim-list", content);
                 }
                 catch (Exception ex)
                 {
@@ -54,16 +58,17 @@ namespace Dastone.Controllers
                 }
             }
         }
+
         [HttpPost]
-        public async Task Update([FromBody] PublishingHouse publishingHouse)
+        public async Task Update([FromBody] UserClaims userClaims)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var jsonData = JsonConvert.SerializeObject(publishingHouse);
+                    var jsonData = JsonConvert.SerializeObject(userClaims);
                     var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-                    await GenericClient.Client.PutAsync("PublishingHouse/update-publishinghouse", content);
+                    await GenericClient.Client.PutAsync("UserClaims/update-userclaim", content);
                 }
                 catch (Exception ex)
                 {
@@ -81,7 +86,7 @@ namespace Dastone.Controllers
                 {
                     var jsonData = JsonConvert.SerializeObject(Id);
                     var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-                    string url = " PublishingHouse/delete-publishinghouse";
+                    string url = "UserClaims/delete-userclaim";
                     string fulurl = $"{url}/{Id}";
                     await GenericClient.Client.PostAsync(fulurl, content);
                 }

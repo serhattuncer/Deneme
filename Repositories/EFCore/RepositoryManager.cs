@@ -18,6 +18,7 @@ namespace Repositories.EFCore
         private readonly Lazy<IRepositoryClaims> _claims;
         private readonly Lazy<IRepositoryRoleClaims> _roleClaims;
         private readonly Lazy<IRepositoryUserClaims> _userClaims;
+        private readonly Lazy<IRepositoryUserRoles> _userRoles;
         public IRepositoryBook book => _book.Value;
         public IRepositoryAuthor author => _author.Value;
         public IRepositoryPublishingHouse Publishinghouse => _publishingHouse.Value;
@@ -28,6 +29,8 @@ namespace Repositories.EFCore
         public IRepositoryRoleClaims RoleClaims => _roleClaims.Value;
 
         public IRepositoryUserClaims UserClaims => _userClaims.Value;
+
+        public IRepositoryUserRoles UserRoles => _userRoles.Value;
 
         public RepositoryManager(RepositoryContext repositoryContext)
         {
@@ -40,6 +43,7 @@ namespace Repositories.EFCore
             _claims= new Lazy<IRepositoryClaims>(() => new RepositoryClaims(_context));
             _roleClaims= new Lazy<IRepositoryRoleClaims>(() => new RepositoryRoleClaims(_context));
             _userClaims= new Lazy<IRepositoryUserClaims>(() => new RepositoryUserClaims(_context));
+            _userRoles = new Lazy<IRepositoryUserRoles>(() => new RepositoryUserRoles(_context));
         }
 
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

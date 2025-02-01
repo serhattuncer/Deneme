@@ -57,6 +57,8 @@
                                         <button type="button" id="sa-delete" name="sa-delete" class="btn btn-link text-reset fs-16" onclick="Dele(@item.User_Id)">
                                             <i class="mdi mdi-delete-sweep"></i>
                                         </button>
+                                        <button type="button" id="claimedit" data-bs-toggle="modal" data-bs-target="#EditUserClaim" class="btn btn-link" data-id="@item.User_Id">Yetki Düzenle</button>
+                                        <button type="button" id="claimrole" data-bs-toggle="modal" data-bs-target="#EditUserRole" class="btn btn-link" data-id="@item.User_Id">Rol Düzenle</button>
 
                                     </div>
                                 </td>
@@ -149,12 +151,56 @@
     </div>
 </div>
 
+<div class="modal fade" id="EditUserClaim" tabindex="-1" role="dialog" aria-labelledby="EditUserClaimLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title m-0" id="EditUserClaimLabel">Yetki Ekle/Sil</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="EditUserClaimForm" novalidate>
+                    <input type="hidden" name="EditUserClaimId" id="EditUserClaimId" />
+                    <div id="permissions">
+                        <!-- Checkbox'lar buraya eklenecek -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="sa-edit" class="btn btn-soft-primary btn-sm" onclick="savePermissions()">Kaydet</button>
+                        <button type="button" class="btn btn-soft-secondary btn-sm" data-bs-dismiss="modal">Kapat</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="EditUserRole" tabindex="-1" role="dialog" aria-labelledby="EditUserRoleLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title m-0" id="EditUserRoleLabel">Role Ekle/Sil</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="EditUserRoleForm" novalidate>
+                    <input type="hidden" name="EditUserRoleId" id="EditUserRoleId" />
+                    <div id="permissionsrole">
+                        <!-- Checkbox'lar buraya eklenecek -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="sa-roledit" class="btn btn-soft-primary btn-sm" onclick="savePermissions()">Kaydet</button>
+                        <button type="button" class="btn btn-soft-secondary btn-sm" data-bs-dismiss="modal">Kapat</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section scripts
 {
     <script>
         $('#updateUser').on('show.bs.modal', function (event) {
-            debugger;
+
             var button = $(event.relatedTarget);
             var itemId = button.data('id');
             var itemNameSurname = button.data('namesurname');
@@ -173,10 +219,60 @@
             modal.find('.modal-body #updatePhonenumber').val(itemPhonenumber);
         });
     </script>
+    <script>
+        $('#EditUserClaim').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var itemId = button.data('id');
 
+            var modal = $(this);
+            modal.find('.modal-body #EditUserClaimId').val(itemId);
+
+            Promise.all([
+                $.ajax({ url: 'Users/GetClaims', type: 'GET', contentType: 'application/json' }),
+                $.ajax({ url: `Users/GetUserClaimsById/${itemId}`, type: 'POST', contentType: 'application/json', data: JSON.stringify(itemId) })
+            ]).then(([claimsResponse, userClaimsResponse]) => {
+                loadPermissions(claimsResponse, userClaimsResponse);
+                console.log(claimsResponse);
+            }).catch(error => {
+                console.error("Yetkileri alırken hata oluştu:", error);
+            });
+
+            function loadPermissions(allClaims, userClaims) {
+                try {
+                    const permissionContainer = document.getElementById('permissions');
+                    permissionContainer.innerHTML = ''; // Önceki yetkileri temizle
+
+                    allClaims.forEach(claim => {
+                        const isChecked = userClaims.includes(claim.claims_Id);
+                        debugger;
+                        const checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.id = `claim_${claim.claims_Id}`;
+                        checkbox.name = claim.claimsName;
+                        checkbox.dataset.claimId = claim.claims_Id;
+                        checkbox.checked = isChecked;
+
+                        const label = document.createElement('label');
+                        label.htmlFor = `claim_${claim.claims_Id}`;
+                        label.textContent = claim.claimsName;
+
+                        const wrapper = document.createElement('div');
+                        wrapper.appendChild(checkbox);
+                        wrapper.appendChild(label);
+
+                        permissionContainer.appendChild(wrapper);
+                    });
+                } catch (error) {
+                    console.error('Yetkiler yüklenirken hata oluştu:', error);
+                }
+            }
+        });
+
+
+    </script>
     <script>
         $('#sa-add').click(function () {
-            debugger;
+
             var Users = {
                 User_Id: 0,
                 NameSurName: document.getElementById("addNameSurname").value,
@@ -185,29 +281,133 @@
                 Email: document.getElementById("addEmail").value,
                 PhoneNumber: document.getElementById("addPhonenumber").value
             };
-            create('Users/Create', Users, 'Users');
+            create('Users/Create', Users, 'users');
         });
 
         $('#sa-update').click(function () {
-            debugger;
-            var Users = {
-                User_Id: document.getElementById("updateUserId").value,
-                NameSurName: document.getElementById("updateNameSurname").value,
-                UserName: document.getElementById("updateUsername").value,
-                PasswordHash: document.getElementById("updatePassword").value,
-                Email: document.getElementById("updateEmail").value,
-                PhoneNumber: document.getElementById("updatePhonenumber").value
+
+            var users = {
+                user_Id: document.getElementById("updateUserId").value,
+                nameSurName: document.getElementById("updateNameSurname").value,
+                userName: document.getElementById("updateUsername").value,
+                passwordHash: document.getElementById("updatePassword").value,
+                email: document.getElementById("updateEmail").value,
+                phoneNumber: document.getElementById("updatePhonenumber").value
             };
-            update('Users/Update',Users, 'Users');
+
+            update('Users/Update', users, 'users');
         });
     </script>
     <script>
         function Dele(e) {
-            deleted('Users/Delete', e, 'Users');
+
+            deleted('Users/Delete', e, 'users');
         }
     </script>
+    <script>
+        async function savePermissions() {
+            try {
+                debugger;
+                // ✅ Seçili yetkileri toplama
+                const selectedClaims = [];
+                const checkboxes = document.querySelectorAll('#permissions input[type="checkbox"]:checked');
+
+                checkboxes.forEach(checkbox => {
+                    selectedClaims.push(checkbox.dataset.claimId);
+                });
+
+                // ✅ Kullanıcı ID'yi alma
+                var itemId = document.getElementById("EditUserClaimId").value;
+
+                // ⚠️ Eğer kullanıcı ID bulunamazsa işlemi iptal et
+                if (!itemId) {
+                    console.error('❌ Kullanıcı ID bulunamadı!');
+                    alert('⚠️ Kullanıcı ID eksik, işlem yapılamıyor.');
+                    return;
+                }
+
+                // 📌 Konsola detaylı bilgi yazdır
+                console.log("✅ Kullanıcı ID:", itemId);
+                console.log("✅ Seçili Yetkiler:", selectedClaims);
+
+                // ✅ Her yetkiyi sırayla API'ye gönder
+                // for (const claimId of selectedClaims) {
+                    var UserClaims = {
+                        Claims_Id:selectedClaims,
+                        User_Id: itemId
+                    };
+                   try {
+                        await create('UserClaims/Create', UserClaims, 'users');  // 🔹 Her API çağrısını sırayla bekle
+                        console.log(`✅ API'ye gönderildi -> Kullanıcı ID: ${itemId}, Yetki ID: ${claimId}`);
+                    } catch (error) {
+                        console.error(`❌ Hata oluştu: Kullanıcı ID: ${itemId}, Yetki ID: ${claimId}`, error);
+                    }
+                // }
+
+                // ✅ Tüm işlemler tamamlandıktan sonra modalı kapat
+                $('#EditUserClaim').modal('hide');
+
+            } catch (error) {
+                console.error('❌ Kaydetme işlemi sırasında hata oluştu:', error);
+            }
+        }
+
+    </script>
+    <script>
+        $('#EditUserRole').on('show.bs.modal', function (event) {
+            debugger;
+            var button = $(event.relatedTarget);
+            var itemId = button.data('id');
+
+            var modal = $(this);
+            modal.find('.modal-body #EditUserRoleId').val(itemId);
+
+            Promise.all([
+                $.ajax({ url:'Users/GetRoles', type: 'GET', contentType: 'application/json' }),
+                $.ajax({ url:`Users/GetUserRolesById/${itemId}`, type: 'POST', contentType: 'application/json', data:JSON.stringify(itemId)})
+            ]).then(([rolesResponse, userRolesResponse]) => {
+                loadPermissions(rolesResponse, userRolesResponse);
+                console.log(rolesResponse);
+                console.log(userRolesResponse);
+            }).catch(error => {
+                console.error("Yetkileri alırken hata oluştu:", error);
+            });
+
+            function loadPermissions(allRoles, userRoles) {
+                debugger;
+                try {
+                    const permissionContainer = document.getElementById('permissionsrole');
+                    permissionContainer.innerHTML = ''; // Önceki yetkileri temizle
+
+                    allRoles.forEach(role => {
+                        debugger;
+                        const isChecked = userRoles.includes(role.role_Id);
+
+                        const checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.id = `role_${role.role_Id}`;
+                        checkbox.name = role.name;
+                        checkbox.dataset.roleId = role.role_Id;
+                        checkbox.checked = isChecked;
+
+                        const label = document.createElement('label');
+                        label.htmlFor = `role_${role.role_Id}`;
+                        label.textContent = role.name;
+
+                        const wrapper = document.createElement('div');
+                        wrapper.appendChild(checkbox);
+                        wrapper.appendChild(label);
+
+                        permissionContainer.appendChild(wrapper);
+                    });
+                } catch (error) {
+                    console.error('Yetkiler yüklenirken hata oluştu:', error);
+                }
+            }
+        });
 
 
+    </script>
 
 
     <script src="~/lib/datatables/jquery.datatables.min.js"></script>

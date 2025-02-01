@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace Entities.ModelDto
 {
-    public class UserClaimsDto
+   public class UserClaimsListDto
     {
-        public int UserClaims_Id { get; set; }
+        public int[] Claims_Id { get; set; }
         public int User_Id { get; set; }
-        public int Claims_Id { get; set; }
-       
-
     }
 }
+
