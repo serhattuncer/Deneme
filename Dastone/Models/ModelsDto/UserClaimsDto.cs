@@ -1,4 +1,4 @@
-﻿namespace Dastone.Models
+﻿namespace Dastone.Models.ModelsDto
 {
     public class UserClaimsDto
     {

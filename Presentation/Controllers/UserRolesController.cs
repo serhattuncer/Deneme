@@ -87,13 +87,13 @@ namespace Presentation.Controllers
         }
 
 
-        [HttpPost("create-userrole")]
-        public async Task<IActionResult> CreateUserRole(UserRolesDto userrolesDto)
+        [HttpPost("create-userrole-list")]
+        public async Task<IActionResult> CreateUserRole(UserRoleListDto userRolesListDto)
         {
             try
             {
                 Log.Information("İnformation Create UserRole");
-                await _manager.userrole.CreateUserRole(userrolesDto);
+                await _manager.userrole.CreateUserRoleList(userRolesListDto);
                 return Ok();
             }
             catch (Exception ex)
@@ -131,7 +131,7 @@ namespace Presentation.Controllers
             try
             {
                 Log.Information("İnformation Delete UserRole");
-                await _manager.userrole.DeleteUserRole(id);
+                await _manager.userrole.DeleteUserRoleList(id);
                 return NoContent();
             }
             catch (Exception ex)

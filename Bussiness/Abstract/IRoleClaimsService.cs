@@ -15,5 +15,7 @@ namespace Services.Abstract
         Task CreateRoleClaim(RoleClaimsDto roleclaimsDto);
         Task UpdateRoleClaim(RoleClaimsDto roleclaimsDto);
         Task DeleteRoleClaim(int id);
+        Task DeleteRoleClaimList(int RoleId);
+        Task CreateRoleClaimList(RoleClaimsListDto roleClaimsListDto);
     }
 }

@@ -41,7 +41,7 @@ namespace Presentation.Controllers
 
         }
         [HttpPost("get-role-claims-by-roleid/{id}")]
-        public async Task<IActionResult> GetListByUserId(int id)
+        public async Task<IActionResult> GetListByRoleId(int id)
         {
             try
             {
@@ -88,13 +88,13 @@ namespace Presentation.Controllers
         }
 
 
-        [HttpPost("create-roleclaim")]
-        public async Task<IActionResult> CreateRoleClaim(RoleClaimsDto roleclaimsDto)
+        [HttpPost("create-roleclaim-list")]
+        public async Task<IActionResult> CreateRoleClaim(RoleClaimsListDto roleclaimsDto)
         {
             try
             {
                 Log.Information("İnformation Create RoleClaim");
-                await _manager.roleclaim.CreateRoleClaim(roleclaimsDto);
+                await _manager.roleclaim.CreateRoleClaimList(roleclaimsDto);
                 return Ok();
             }
             catch (Exception ex)
@@ -132,7 +132,7 @@ namespace Presentation.Controllers
             try
             {
                 Log.Information("İnformation Delete RoleClaim");
-                await _manager.roleclaim.DeleteRoleClaim(id);
+                await _manager.roleclaim.DeleteRoleClaimList(id);
                 return NoContent();
             }
             catch (Exception ex)

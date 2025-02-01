@@ -15,5 +15,7 @@ namespace Services.Abstract
         Task CreateUserRole(UserRolesDto userrolesDto);
         Task UpdateUserRole(UserRolesDto userrolesDto);
         Task DeleteUserRole(int id);
+        Task DeleteUserRoleList(int UserId);
+        Task CreateUserRoleList(UserRoleListDto userRolesListDto);
     }
 }

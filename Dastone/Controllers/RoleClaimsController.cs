@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text.Json;
 using System.Text;
+using Dastone.Models.ModelsDto;
 
 namespace Dastone.Controllers
 {
@@ -37,7 +38,7 @@ namespace Dastone.Controllers
             }
         }
         [HttpPost]
-        public async Task Create([FromBody] RoleClaims roleClaims)
+        public async Task Create([FromBody] RoleClaimsDto roleClaims)
         {
             if (ModelState.IsValid)
             {
@@ -45,7 +46,7 @@ namespace Dastone.Controllers
                 {
                     var jsonData = JsonConvert.SerializeObject(roleClaims);
                     var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-                    await GenericClient.Client.PostAsync("RoleClaims/create-roleclaim", content);
+                    await GenericClient.Client.PostAsync("RoleClaims/create-roleclaim-list", content);
                 }
                 catch (Exception ex)
                 {

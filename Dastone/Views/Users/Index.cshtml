@@ -187,7 +187,7 @@
                         <!-- Checkbox'lar buraya eklenecek -->
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="sa-roledit" class="btn btn-soft-primary btn-sm" onclick="savePermissions()">Kaydet</button>
+                        <button type="button" id="sa-roledit" class="btn btn-soft-primary btn-sm" onclick="savePermissionsrole()">Kaydet</button>
                         <button type="button" class="btn btn-soft-secondary btn-sm" data-bs-dismiss="modal">Kapat</button>
                     </div>
                 </form>
@@ -320,8 +320,7 @@
                 var itemId = document.getElementById("EditUserClaimId").value;
 
                 // ⚠️ Eğer kullanıcı ID bulunamazsa işlemi iptal et
-                if (!itemId) {
-                    console.error('❌ Kullanıcı ID bulunamadı!');
+                if (!itemId) {                  
                     alert('⚠️ Kullanıcı ID eksik, işlem yapılamıyor.');
                     return;
                 }
@@ -330,22 +329,19 @@
                 console.log("✅ Kullanıcı ID:", itemId);
                 console.log("✅ Seçili Yetkiler:", selectedClaims);
 
-                // ✅ Her yetkiyi sırayla API'ye gönder
-                // for (const claimId of selectedClaims) {
-                    var UserClaims = {
-                        Claims_Id:selectedClaims,
-                        User_Id: itemId
-                    };
-                   try {
-                        await create('UserClaims/Create', UserClaims, 'users');  // 🔹 Her API çağrısını sırayla bekle
-                        console.log(`✅ API'ye gönderildi -> Kullanıcı ID: ${itemId}, Yetki ID: ${claimId}`);
-                    } catch (error) {
-                        console.error(`❌ Hata oluştu: Kullanıcı ID: ${itemId}, Yetki ID: ${claimId}`, error);
-                    }
-                // }
+                var UserClaims = {
+                    Claims_Id: selectedClaims,
+                    User_Id: itemId
+                };
+                try {
+                    await create('UserClaims/Create', UserClaims, 'users');  // 🔹 Her API çağrısını sırayla bekle
+                    console.log(`✅ API'ye gönderildi -> Kullanıcı ID: ${itemId}, Yetki ID: ${claimId}`);
+                } catch (error) {
+                    console.error(`❌ Hata oluştu: Kullanıcı ID: ${itemId}, Yetki ID: ${claimId}`, error);
+                }
 
-                // ✅ Tüm işlemler tamamlandıktan sonra modalı kapat
-                $('#EditUserClaim').modal('hide');
+
+              
 
             } catch (error) {
                 console.error('❌ Kaydetme işlemi sırasında hata oluştu:', error);
@@ -363,8 +359,8 @@
             modal.find('.modal-body #EditUserRoleId').val(itemId);
 
             Promise.all([
-                $.ajax({ url:'Users/GetRoles', type: 'GET', contentType: 'application/json' }),
-                $.ajax({ url:`Users/GetUserRolesById/${itemId}`, type: 'POST', contentType: 'application/json', data:JSON.stringify(itemId)})
+                $.ajax({ url: 'Users/GetRoles', type: 'GET', contentType: 'application/json' }),
+                $.ajax({ url: `Users/GetUserRolesById/${itemId}`, type: 'POST', contentType: 'application/json', data: JSON.stringify(itemId) })
             ]).then(([rolesResponse, userRolesResponse]) => {
                 loadPermissions(rolesResponse, userRolesResponse);
                 console.log(rolesResponse);
@@ -408,7 +404,51 @@
 
 
     </script>
+    <script>
+        async function savePermissionsrole() {
+            try {
+                debugger;
+                // ✅ Seçili yetkileri toplama
+                const selectedRoles = [];
+                const checkboxes = document.querySelectorAll('#permissionsrole input[type="checkbox"]:checked');
 
+                checkboxes.forEach(checkbox => {
+                    selectedRoles.push(checkbox.dataset.roleId);
+                });
+
+                // ✅ Kullanıcı ID'yi alma
+                var itemId = document.getElementById("EditUserRoleId").value;
+
+                // ⚠️ Eğer kullanıcı ID bulunamazsa işlemi iptal et
+                if (!itemId) {
+                    alert('⚠️ Kullanıcı ID eksik, işlem yapılamıyor.');
+                    return;
+                }
+
+                // 📌 Konsola detaylı bilgi yazdır
+                console.log("✅ Kullanıcı ID:", itemId);
+                console.log("✅ Seçili Yetkiler:", selectedRoles);
+
+                var UserRoles = {
+                    Role_Id: selectedRoles,
+                    User_Id: itemId
+                };
+                try {
+                    await create('UserRoles/Create', UserRoles, 'users');  // 🔹 Her API çağrısını sırayla bekle
+                    console.log(`✅ API'ye gönderildi -> Kullanıcı ID: ${itemId}, Yetki ID: ${roleId}`);
+                } catch (error) {
+                    console.error(`❌ Hata oluştu: Kullanıcı ID: ${itemId}, Yetki ID: ${roleId}`, error);
+                }
+
+
+
+
+            } catch (error) {
+                console.error('❌ Kaydetme işlemi sırasında hata oluştu:', error);
+            }
+        }
+
+    </script>
 
     <script src="~/lib/datatables/jquery.datatables.min.js"></script>
     <script src="~/lib/datatables/dataTables.bootstrap5.min.js"></script>
