@@ -56,11 +56,22 @@ namespace Services.Concrete
             return await _manager.User.GetById(id);
         }
 
+        public async Task<Users> GetUserByName(string userName)
+        {
+            return await _manager.User.GetByName(userName);
+        }
+
         public async Task UpdateUser(UsersDto usersDto)
         {
             var data = _mapper.Map<Users>(usersDto);
             _manager.User.Update(data);
             await _manager.SaveChangesAsync();
+        }
+
+        public Task<bool> ValidateUser(LoginUserDto loginUserDto)
+        {
+          return _manager.User.ValidateUser(loginUserDto);
+            
         }
     }
 }

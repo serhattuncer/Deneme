@@ -1,13 +1,15 @@
 ﻿using Entities.ModelDto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Repositories.Migrations;
 using Serilog;
 using Services.Abstract;
 
 namespace Presentation.Controllers
 {
     [Route("User")]
-    [ApiController]
+    [ApiController]   
     public class UserController : ControllerBase
     {
         private readonly IServiceManager _manager;
@@ -15,7 +17,9 @@ namespace Presentation.Controllers
         {
             _manager = manager;
         }
+
         [HttpGet("get-users")]
+        
         public async Task<IActionResult> GetList()
         {
             try

@@ -41,6 +41,13 @@ namespace Repositories.EFCore
             return entity;
         }
 
+        public async Task<T> GetByName(string userName)
+        {
+            var entity = _context.Set<T>().Find(userName);
+            _context.Entry(entity).State = EntityState.Detached;
+            return entity;
+        }
+
         public T Update(T entity)
         {
             _context.Set<T>().Update(entity);

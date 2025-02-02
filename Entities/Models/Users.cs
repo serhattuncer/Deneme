@@ -22,7 +22,10 @@ namespace Entities.Models
         public DateTimeOffset? LockoutEnd {  get; set; }
         public bool LockoutEnabled { get; set; }
         public int AccessFailedCount { get; set; }
+        public string? RefreshToken { get; set; }
+        public DateTime RefreshTokenExpiryTime { get; set; }
 
-        
+
+
     }
 }

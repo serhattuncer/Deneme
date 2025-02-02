@@ -12,8 +12,10 @@ namespace Services.Abstract
     {
         Task<List<Users>> GetAllUsers();
         Task<Users> GetUserById(int id);
+        Task<Users> GetUserByName(string userName);
         Task CreateUser(UsersDto usersDto);
         Task UpdateUser(UsersDto usersDto);
         Task DeleteUser(int id);
+        Task <bool> ValidateUser(LoginUserDto loginUserDto);
     }
 }

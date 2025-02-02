@@ -24,6 +24,7 @@ namespace Services.Concrete
         private readonly Lazy<IUserClaimsService> _userClaims;
         private readonly Lazy<IRoleClaimsService> _roleClaims;
         private readonly Lazy<IUserRolesService> _userRoles;
+     
         public ServiceManager(IRepositoryManager manager,IMapper mapper)
         {
             _book = new Lazy<IServiceBook>(() => new ServiceBook(manager,mapper));
@@ -35,6 +36,7 @@ namespace Services.Concrete
             _userClaims = new Lazy<IUserClaimsService>(() => new UserClaimsService(manager, mapper));
             _roleClaims = new Lazy<IRoleClaimsService>(() => new RoleClaimsService(manager, mapper));
             _userRoles = new Lazy<IUserRolesService>(() => new UserRolesService(manager, mapper));
+            
         }
         public IServiceBook book => _book.Value;
 
@@ -53,6 +55,8 @@ namespace Services.Concrete
         public IUserClaimsService userclaim => _userClaims.Value;
 
         public IUserRolesService userrole => _userRoles.Value;
+
+        
     }
 }
 
