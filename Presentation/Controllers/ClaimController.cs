@@ -1,4 +1,5 @@
 ﻿using Entities.ModelDto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
@@ -16,6 +17,8 @@ namespace Presentation.Controllers
         {
             _manager = manager;
         }
+
+        [Authorize(Policy = "GetClaims")]
         [HttpGet("get-claims")]
         public async Task<IActionResult> GetList()
         {
@@ -41,7 +44,7 @@ namespace Presentation.Controllers
 
         }
 
-
+        [Authorize(Policy = "GetClaimById")]
         [HttpGet("get-claim-by-id{id}")]
         public async Task<IActionResult> GetClaimById(int id)
         {
@@ -63,7 +66,7 @@ namespace Presentation.Controllers
 
         }
 
-
+        [Authorize(Policy = "CreateClaim")]
         [HttpPost("create-claim")]
         public async Task<IActionResult> CreateClaim(ClaimsDto claimsDto)
         {
@@ -82,7 +85,7 @@ namespace Presentation.Controllers
 
         }
 
-
+        [Authorize(Policy = "UpdateClaim")]
         [HttpPut("update-claim")]
         public async Task<IActionResult> UpdateClaim(ClaimsDto claimsDto)
         {
@@ -101,7 +104,7 @@ namespace Presentation.Controllers
 
         }
 
-
+        [Authorize(Policy = "DeleteClaim")]
         [HttpPost("delete-claim/{id}")]
         public async Task<IActionResult> DeleteClaim(int id)
         {

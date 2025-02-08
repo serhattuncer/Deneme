@@ -1,4 +1,5 @@
 ﻿using Entities.ModelDto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -17,6 +18,7 @@ namespace Presentation.Controllers
             _manager = manager;
         }
 
+        [Authorize(Policy = "GetRoles")]
         [HttpGet("get-roles")]
         public async Task<IActionResult> GetList()
         {
@@ -42,7 +44,7 @@ namespace Presentation.Controllers
 
         }
 
-
+        [Authorize(Policy = "GetRoleById")]
         [HttpGet("get-role-by-id{id}")]
         public async Task<IActionResult> GetRoleById(int id)
         {
@@ -64,7 +66,7 @@ namespace Presentation.Controllers
 
         }
 
-
+        [Authorize(Policy = "CreateRole")]
         [HttpPost("create-role")]
         public async Task<IActionResult> CreateRole(RolesDto rolesDto)
         {
@@ -83,7 +85,7 @@ namespace Presentation.Controllers
 
         }
 
-
+        [Authorize(Policy = "UpdateRole")]
         [HttpPut("update-role")]
         public async Task<IActionResult> UpdateRole(RolesDto rolesDto)
         {
@@ -102,7 +104,7 @@ namespace Presentation.Controllers
 
         }
 
-
+        [Authorize(Policy = "DeleteRole")]
         [HttpPost("delete-role/{id}")]
         public async Task<IActionResult> DeleteRole(int id)
         {

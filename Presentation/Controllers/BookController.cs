@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Entities.ModelDto;
 using Entities.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
@@ -18,6 +19,8 @@ namespace Presentation.Controllers
         {
             _manager = manager;
         }
+
+        [Authorize(Policy = "GetBooks")]
         [HttpGet("get-books")]
         public async Task<IActionResult> GetList()
         {
@@ -43,7 +46,7 @@ namespace Presentation.Controllers
 
         }
 
-
+        [Authorize(Policy = "GetBookById")]
         [HttpGet("get-book-by-id{id}")]
         public async Task<IActionResult> GetBookById(int id)
         {
@@ -65,7 +68,7 @@ namespace Presentation.Controllers
             
         }
 
-
+        [Authorize(Policy = "CreateBook")]
         [HttpPost("create-book")]
         public async Task<IActionResult> CreateBook(BookDto bookDto)
         {
@@ -84,7 +87,7 @@ namespace Presentation.Controllers
             
         }
 
-
+        [Authorize(Policy = "UpdateBook")]
         [HttpPut("update-book")]
         public async Task<IActionResult> Updatebook(BookDto bookDto)
         {
@@ -103,7 +106,7 @@ namespace Presentation.Controllers
             
         }
 
-
+        [Authorize(Policy = "DeleteBook")]
         [HttpPost("delete-book/{id}")]
         public async Task<IActionResult> DeleteBook(int id)
         {

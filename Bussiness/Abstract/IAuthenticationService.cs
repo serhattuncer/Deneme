@@ -1,6 +1,7 @@
 ﻿using Entities.ModelDto;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace Services.Abstract
         Task<TokenDto> CreateToken(bool populateExp);
         Task<TokenDto> RefreshToken(TokenDto tokenDto);
         Task<Users> GetbyUserName(string userName);
-        Task<List<Claim>> GetClaims(Users user);   
+        Task<List<Claim>> GetClaimsByUser(Users user);   
+        
     }
 }

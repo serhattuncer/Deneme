@@ -1,21 +1,24 @@
 ﻿using Entities.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Repositories.Contracts;
 using Repositories.EFCore;
 using Services.Abstract;
 using Services.Concrete;
+using System.Text;
+using System;
 
 namespace Presentation.Extension
 {
     public static class ServiceExtension
     {
-        public static void ConfigurationSQLContext(this IServiceCollection Services , IConfiguration Configuration)
+        public static void ConfigurationSQLContext(this IServiceCollection Services, IConfiguration Configuration)
         {
-            Services.AddDbContext<RepositoryContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("ConnectionString"),b=>b.MigrationsAssembly("Repositories")));
+            Services.AddDbContext<RepositoryContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("ConnectionString"), b => b.MigrationsAssembly("Repositories")));
         }
         public static void ConfiguerRepositoryManager(this IServiceCollection Services)
         {
-            
+
             Services.AddScoped<IRepositoryBook, RepositoryBook>();
             Services.AddScoped<IRepositoryAuthor, RepositoryAuthor>();
             Services.AddScoped<IRepositoryPublishingHouse, RepositoryPublishingHouse>();
@@ -28,7 +31,7 @@ namespace Presentation.Extension
 
             Services.AddScoped<IRepositoryManager, RepositoryManager>();
 
-            Services.AddScoped<IGenericRepository<Book>,GenericRepository<Book>>();
+            Services.AddScoped<IGenericRepository<Book>, GenericRepository<Book>>();
             Services.AddScoped<IGenericRepository<Author>, GenericRepository<Author>>();
             Services.AddScoped<IGenericRepository<PublishingHouse>, GenericRepository<PublishingHouse>>();
             Services.AddScoped<IGenericRepository<Users>, GenericRepository<Users>>();
@@ -51,6 +54,154 @@ namespace Presentation.Extension
             Services.AddScoped<IUserRolesService, UserRolesService>();
 
             Services.AddScoped<IServiceManager, ServiceManager>();
+        }
+        public static IServiceCollection AddCustomAuthorization(this IServiceCollection services)
+        {
+            services.AddAuthorization(options =>
+            {
+                //Kitap ile ilgili yetkiller
+                options.AddPolicy("GetBooks", policy =>
+                policy.RequireClaim("Book", "GetBooks").RequireAuthenticatedUser());
+
+                options.AddPolicy("GetBookById", policy =>
+                policy.RequireClaim("Book", "GetBookById").RequireAuthenticatedUser());
+
+                options.AddPolicy("CreateBook", policy =>
+                policy.RequireClaim("Book", "CreateBook").RequireAuthenticatedUser());
+                
+                options.AddPolicy("UpdateBook", policy =>
+                policy.RequireClaim("Book", "UpdateBook").RequireAuthenticatedUser());
+
+                options.AddPolicy("DeleteBook", policy =>
+                policy.RequireClaim("Book", "DeleteBook").RequireAuthenticatedUser());
+
+                //Yazar ile ilgili yetkiler
+                options.AddPolicy("GetAuthors", policy =>
+                policy.RequireClaim("Author", "GetAuthors").RequireAuthenticatedUser());
+
+                options.AddPolicy("GetAuthorById", policy =>
+                policy.RequireClaim("Author", "GetAuthorById").RequireAuthenticatedUser());
+
+                options.AddPolicy("CreateAuthor", policy =>
+                policy.RequireClaim("Author", "CreateAuthor").RequireAuthenticatedUser());
+
+                options.AddPolicy("UpdateAuthor", policy =>
+                policy.RequireClaim("Author", "UpdateAuthor").RequireAuthenticatedUser());
+
+                options.AddPolicy("DeleteAuthor", policy =>
+                policy.RequireClaim("Author", "DeleteAuthor").RequireAuthenticatedUser());
+
+                //Yayınevi ile ilgili yetkiler
+                options.AddPolicy("GetPublishingHouses", policy =>
+                policy.RequireClaim("PublishingHouse", "GetPublishingHouses").RequireAuthenticatedUser());
+
+                options.AddPolicy("GetPublishingHouseById", policy =>
+                policy.RequireClaim("PublishingHouse", "GetPublishingHouseById").RequireAuthenticatedUser());
+
+                options.AddPolicy("CreatePublishingHouse", policy =>
+                policy.RequireClaim("PublishingHosue", "CreatePublishingHouse").RequireAuthenticatedUser());
+
+                options.AddPolicy("UpdatePublishingHouse", policy =>
+                policy.RequireClaim("PublishingHosue", "UpdatePublishingHouse").RequireAuthenticatedUser());
+
+                options.AddPolicy("DeleteAuthor", policy =>
+                policy.RequireClaim("PublishingHosue", "DeletePublishingHouse").RequireAuthenticatedUser());
+
+                //Kullanıcı ile ilgili yetkiler
+                options.AddPolicy("GetUsers", policy =>
+                policy.RequireClaim("User", "GetUsers").RequireAuthenticatedUser());
+
+                options.AddPolicy("GetUserById", policy =>
+                policy.RequireClaim("User", "GetUserById").RequireAuthenticatedUser());
+
+                options.AddPolicy("CreateUser", policy =>
+                policy.RequireClaim("User", "CreateUser").RequireAuthenticatedUser());
+
+                options.AddPolicy("UpdateUser", policy =>
+                policy.RequireClaim("User", "UpdateUser").RequireAuthenticatedUser());
+
+                options.AddPolicy("DeleteUser", policy =>
+                policy.RequireClaim("User", "DeleteUser").RequireAuthenticatedUser());
+
+
+                //Rol ile ilgili yetkiler
+                options.AddPolicy("GetRoles", policy =>
+                policy.RequireClaim("Role", "GetRoles").RequireAuthenticatedUser());
+
+                options.AddPolicy("GetRoleById", policy =>
+                policy.RequireClaim("Role", "GetRoleById").RequireAuthenticatedUser());
+
+                options.AddPolicy("CreateRole", policy =>
+                policy.RequireClaim("Role", "CreateRole").RequireAuthenticatedUser());
+
+                options.AddPolicy("UpdateRole", policy =>
+                policy.RequireClaim("Role", "UpdateRole").RequireAuthenticatedUser());
+
+                options.AddPolicy("DeleteRole", policy =>
+                policy.RequireClaim("Role", "DeleteRole").RequireAuthenticatedUser());
+
+                //Yetki ile ilgili yetkiler
+                options.AddPolicy("GetClaims", policy =>
+                policy.RequireClaim("Claim", "GetClaims").RequireAuthenticatedUser());
+
+                options.AddPolicy("GetClaimById", policy =>
+                policy.RequireClaim("Claim", "GetClaimById").RequireAuthenticatedUser());
+
+                options.AddPolicy("CreateClaim", policy =>
+                policy.RequireClaim("Claim", "CreateClaim").RequireAuthenticatedUser());
+
+                options.AddPolicy("UpdateClaim", policy =>
+                policy.RequireClaim("Claim", "UpdateClaim").RequireAuthenticatedUser());
+
+                options.AddPolicy("DeleteClaim", policy =>
+                policy.RequireClaim("Claim", "DeleteClaim").RequireAuthenticatedUser());
+            });
+            return services;
+        }
+        public static IServiceCollection AddCustomAuthentication(this IServiceCollection services, IConfiguration configuration)
+        {
+
+            var jwtSettings = configuration.GetSection("JwtSettings"); //appsettingsteki istenilen tagı okumaya yarar
+
+            var decryptedsecretKey = jwtSettings["secretKey"];
+            var decryptedValidateIssue = jwtSettings["ValidateIssue"];
+            var decryptedValidateAudience = jwtSettings["ValidateAudience"];
+
+            var secretKey = jwtSettings["secretKey"];
+            //Tokenlarda hassas veriler hiçbir şekilde yer almamalıdır //userName, password, eMail, phoneNumber etc
+            services.AddAuthentication("InventoryCookieScheme")
+                .AddJwtBearer(options =>
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = decryptedValidateIssue,
+                    ValidAudience = decryptedValidateAudience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(decryptedsecretKey)),
+                    ClockSkew = TimeSpan.FromMinutes(Convert.ToDouble(jwtSettings.GetSection("Expire").Value))
+                }
+                ).AddCookie("BookCookieScheme", opt =>
+                {
+                    opt.Cookie.Name = "BookCookie";
+                    opt.LoginPath = "/Authentication/Login";
+                    opt.LogoutPath = "/Authentication/Logout";
+                    opt.AccessDeniedPath = "/Authentication/Login";
+                });
+
+            return services;
+        }
+        public static IServiceCollection AddCustomSession(this IServiceCollection services)
+        {
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
+            return services;
         }
     }
 }

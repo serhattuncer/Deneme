@@ -1,5 +1,6 @@
 ﻿using Entities.ModelDto;
 using Entities.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Repositories.Contracts;
@@ -20,6 +21,7 @@ namespace Presentation.Controllers
             _manager = manager;
         }
 
+        [Authorize(Policy = "GetPublishingHouses")]
         [HttpGet("get-publishinghouses")]
         public async Task<IActionResult> GetAllList()
         {
@@ -42,6 +44,7 @@ namespace Presentation.Controllers
         }
 
 
+        [Authorize(Policy = "GetPublishingHouseById")]
         [HttpGet("get-publishinghouse-by-id{id}")]
         public async Task<IActionResult> GetPublishingHouseById(int id)
         {
@@ -63,6 +66,7 @@ namespace Presentation.Controllers
         }
 
 
+        [Authorize(Policy = "CreatePublishingHouse")]
         [HttpPost("create-publishinghouse")]
         public async Task<IActionResult> CreatePublishingHouse(PublishingHouseDto PublishinghouseDto)
         {
@@ -81,6 +85,7 @@ namespace Presentation.Controllers
         }
 
 
+        [Authorize(Policy = "UpdatePublishingHouse")]
         [HttpPut("update-publishinghouse")]
         public async Task<IActionResult> UpdatePublishingHouse(PublishingHouseDto PublishinghouseDto)
         {
@@ -99,6 +104,7 @@ namespace Presentation.Controllers
         }
 
 
+        [Authorize(Policy = "DeletePublishingHouse")]
         [HttpPost("delete-publishinghouse/{id}")]
         public async Task<IActionResult> DeletePublishingHouse(int id)
         {

@@ -18,8 +18,8 @@ namespace Presentation.Controllers
             _manager = manager;
         }
 
+        [Authorize(Policy = "GetUsers")]
         [HttpGet("get-users")]
-        
         public async Task<IActionResult> GetList()
         {
             try
@@ -41,7 +41,7 @@ namespace Presentation.Controllers
 
         }
 
-
+        [Authorize(Policy = "GetUserById")]
         [HttpGet("get-user-by-id{id}")]
         public async Task<IActionResult> GetUserById(int id)
         {
@@ -63,7 +63,7 @@ namespace Presentation.Controllers
 
         }
 
-
+        [Authorize(Policy = "CreateUser")]
         [HttpPost("create-user")]
         public async Task<IActionResult> CreateUser(UsersDto usersDto)
         {
@@ -82,7 +82,7 @@ namespace Presentation.Controllers
 
         }
 
-
+        [Authorize(Policy = "UpdateUser")]
         [HttpPut("update-user")]
         public async Task<IActionResult> UpdateUser(UsersDto usersDto)
         {
@@ -101,7 +101,7 @@ namespace Presentation.Controllers
 
         }
 
-
+        [Authorize(Policy = "DeleteUser")]
         [HttpPost("delete-user/{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {

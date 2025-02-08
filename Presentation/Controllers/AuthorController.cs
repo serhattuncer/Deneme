@@ -1,5 +1,6 @@
 ﻿using Entities.ModelDto;
 using Entities.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
@@ -18,7 +19,7 @@ namespace Presentation.Controllers
             _manager = manager;
         }
 
-
+        [Authorize(Policy = "GetAuthors")]
         [HttpGet("get-authors")]
         public async Task<IActionResult> GetAllAuthors()
         {
@@ -39,7 +40,7 @@ namespace Presentation.Controllers
 
         }
 
-
+        [Authorize(Policy = "GetAuthorById")]
         [HttpGet("get-author-by-id{id}")]
         public async Task<IActionResult> GetOneAuthorById(int id)
         {
@@ -60,7 +61,7 @@ namespace Presentation.Controllers
            
         }
 
-
+        [Authorize(Policy = "CreateAuthor")]
         [HttpPost("create-author")]
         public async Task<IActionResult> CreateAuthor(AuthorDto authorDto)
         {
@@ -78,7 +79,7 @@ namespace Presentation.Controllers
             
         }
 
-
+        [Authorize(Policy = "UpdateAuthor")]
         [HttpPut("update-author")]
         public async Task<IActionResult> UpdateAuthor(AuthorDto authorDto)
         {
@@ -97,7 +98,7 @@ namespace Presentation.Controllers
             
         }
 
-
+        [Authorize(Policy = "DeleteAuthor")]
         [HttpPost("delete-author/{id}")]
         public async Task<IActionResult> DeleteAuthor(int id)
         {
