@@ -1,4 +1,5 @@
 ﻿using Dastone.Helpers;
+using Dastone.HttpRequest;
 using Dastone.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.MSIdentity.Shared;
@@ -10,22 +11,22 @@ namespace Dastone.Controllers
 {
     public class BookController : Controller
     {
-		[HttpGet]
-        public async Task<IActionResult> Index() 
-            
+        private readonly GenericRequestsClient<Book> _client;
+
+        public BookController(GenericRequestsClient<Book> client)
+        {
+            _client = client;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Index()     
         { 
-		
 			try 
 			{
-				var response = await GenericClient.Client.GetAsync("Book/get-books");
-				if (response.IsSuccessStatusCode)
+                var response = await _client.GetHttpRequest("Book/get-books");
+				if (response.IsSuccess)
 				{
-					var jsonresponse = await response.Content.ReadAsStringAsync();
-					var model = System.Text.Json.JsonSerializer.Deserialize<List<Book>>(jsonresponse, new JsonSerializerOptions
-					{
-						PropertyNameCaseInsensitive = true
-					});
-					return View(model);
+					return View(response);
 				}
 				else 
 				{
@@ -42,58 +43,48 @@ namespace Dastone.Controllers
 		[HttpPost]
 		public async Task Create([FromBody]Book book)
 		{
-			if (ModelState.IsValid) 
-			{
-				try
-				{
-					var jsonData=JsonConvert.SerializeObject(book);
-					var content=new StringContent(jsonData,Encoding.UTF8,"application/json");
-					await GenericClient.Client.PostAsync("Book/create-book",content);
-				}
-				catch (Exception ex)
-				{
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var response = await _client.PostRequestGeneric("Book/create-book",book);
+                }
+            }
+            catch (Exception)
+            {
 
-					throw;
-				}
-			}
+                throw;
+            }
+			
 		}
 
         [HttpPost]
         public async Task Update([FromBody] Book book)
         {
-            if (ModelState.IsValid)
+            try
             {
-                try
+                if (ModelState.IsValid)
                 {
-                    var jsonData = JsonConvert.SerializeObject(book);
-                    var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-                    await GenericClient.Client.PutAsync("Book/update-book", content);
+                    await _client.UpdateRequestGeneric("Book/update-book",book);
                 }
-                catch (Exception ex)
-                {
+            }
+            catch (Exception)
+            {
 
-                    throw;
-                }
+                throw;
             }
         }
         [HttpPost]
         public async Task Delete([FromBody] int Id)
         {
-            if (ModelState.IsValid)
+            try
             {
-                try
-                {
-                    var jsonData = JsonConvert.SerializeObject(Id);
-                    var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-                    string url = " Book/delete-book";
-                    string fulurl = $"{url}/{Id}";
-                    await GenericClient.Client.PostAsync(fulurl,content);
-                }
-                catch (Exception ex)
-                {
+                await _client.DeleteRequestGeneric("Book/delete-book/",Id);
+            }
+            catch (Exception)
+            {
 
-                    throw;
-                }
+                throw;
             }
         }
     }

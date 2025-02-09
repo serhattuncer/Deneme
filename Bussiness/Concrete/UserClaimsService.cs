@@ -24,20 +24,7 @@ namespace Services.Concrete
             _manager = manager;
         }
 
-        public async Task CreateUserClaim(UserClaimsDto userclaimsDto)
-        {
-            try
-            {
-                var data = _mapper.Map<UserClaims>(userclaimsDto);
-                await _manager.UserClaims.Create(data);
-                await _manager.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-
-                new Exception("message:" + e);
-            }
-        }
+       
 
         public async Task CreateUserClaimList(UserClaimsListDto userClaimsListDto)
         {
@@ -75,13 +62,7 @@ namespace Services.Concrete
 
         }
 
-        public async Task DeleteUserClaim(int id)
-        {
-            var data = _manager.UserClaims.GetById(id).Result;
-            data.IsDeleted = true;
-            _manager.UserClaims.Delete(data);
-            await _manager.SaveChangesAsync();
-        }
+        
 
         public async Task DeleteUserClaimList(int UserId)
         {
@@ -104,11 +85,6 @@ namespace Services.Concrete
             return await _manager.UserClaims.GetById(id);
         }
 
-        public async Task UpdateUserClaim(UserClaimsDto userclaimsDto)
-        {
-            var data = _mapper.Map<UserClaims>(userclaimsDto);
-            _manager.UserClaims.Update(data);
-            await _manager.SaveChangesAsync();
-        }
+       
     }
 }

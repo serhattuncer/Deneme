@@ -33,13 +33,15 @@ namespace Repositories.EFCore
             return await _context.Set<T>().AsNoTracking().ToListAsync();
             
         }
-
+        
         public async Task<T> GetById(int id)
         {
            var entity = _context.Set<T>().Find(id);
             _context.Entry(entity).State = EntityState.Detached;
             return entity;
         }
+
+       
 
         public async Task<T> GetByName(string userName)
         {

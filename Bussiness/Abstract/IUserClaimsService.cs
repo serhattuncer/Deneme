@@ -13,9 +13,6 @@ namespace Services.Abstract
     {
         Task<List<UserClaims>> GetAllUserClaims();
         Task<UserClaims> GetUserClaimById(int id);
-        Task CreateUserClaim(UserClaimsDto userclaimsDto);
-        Task UpdateUserClaim(UserClaimsDto userclaimsDto);
-        Task DeleteUserClaim(int id);
         Task DeleteUserClaimList(int UserId);
         Task CreateUserClaimList(UserClaimsListDto userClaimsListDto);
     }

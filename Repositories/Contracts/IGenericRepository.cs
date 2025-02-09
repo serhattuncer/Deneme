@@ -13,6 +13,7 @@ namespace Repositories.Contracts
         T Delete(T entity);
         Task<List<T>> GetAll();
         Task<T> GetById(int id);
+       
         Task<T> GetByName(string userName);
 
     }

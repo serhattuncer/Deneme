@@ -52,6 +52,7 @@ namespace Presentation.Extension
             Services.AddScoped<IUserClaimsService, UserClaimsService>();
             Services.AddScoped<IRoleClaimsService, RoleClaimsService>();
             Services.AddScoped<IUserRolesService, UserRolesService>();
+            Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
             Services.AddScoped<IServiceManager, ServiceManager>();
         }
@@ -182,9 +183,9 @@ namespace Presentation.Extension
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(decryptedsecretKey)),
                     ClockSkew = TimeSpan.FromMinutes(Convert.ToDouble(jwtSettings.GetSection("Expire").Value))
                 }
-                ).AddCookie("BookCookieScheme", opt =>
+                ).AddCookie("LibraryCookieScheme", opt =>
                 {
-                    opt.Cookie.Name = "BookCookie";
+                    opt.Cookie.Name = "LibraryCookie";
                     opt.LoginPath = "/Authentication/Login";
                     opt.LogoutPath = "/Authentication/Logout";
                     opt.AccessDeniedPath = "/Authentication/Login";
@@ -200,6 +201,19 @@ namespace Presentation.Extension
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
+
+            return services;
+        }
+        public static IServiceCollection AddCustomHttpClients(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddHttpClient("MyClient", client =>
+            {
+                var baseUrl = configuration.GetValue<string>("ClientUrl:BaseUrl");
+   
+                client.BaseAddress = new Uri(baseUrl);
+            });
+
+            services.AddHttpClient(); // Diğer genel HttpClient kaydı
 
             return services;
         }

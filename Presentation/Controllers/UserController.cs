@@ -63,7 +63,7 @@ namespace Presentation.Controllers
 
         }
 
-        [Authorize(Policy = "CreateUser")]
+        //[Authorize(Policy = "CreateUser")]
         [HttpPost("create-user")]
         public async Task<IActionResult> CreateUser(UsersDto usersDto)
         {

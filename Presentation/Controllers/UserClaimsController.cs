@@ -106,25 +106,6 @@ namespace Presentation.Controllers
         }
 
 
-        [HttpPut("update-userclaim")]
-        public async Task<IActionResult> UpdateUserClaim(UserClaimsDto userclaimsDto)
-        {
-            try
-            {
-                Log.Information("İnformation Update UserClaim");
-                await _manager.userclaim.UpdateUserClaim(userclaimsDto);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-
-                Log.Error("Error Update UserClaim");
-                throw new Exception("Error Message:{0}", ex);
-            }
-
-        }
-
-
         [HttpPost("delete-userclaim/{id}")]
         public async Task<IActionResult> DeleteUserClaimList(int id)
         {

@@ -23,16 +23,16 @@ namespace Services.Concrete
 
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
-        private readonly UserManager<Users> _userManager;
-        private readonly RoleManager<Roles> _roleManager;
+        //private readonly UserManager<Users> _userManager;
+        //private readonly RoleManager<Roles> _roleManager;
         private readonly IServiceManager _manager;
         private Users? _users;
-        public AuthenticationService(IMapper mapper, IConfiguration configuration, UserManager<Users> userManager, RoleManager<Roles> roleManager, IServiceManager manager)
+        public AuthenticationService(IMapper mapper, IConfiguration configuration,  IServiceManager manager)
         {
             _mapper = mapper;
             _configuration = configuration;
-            _userManager = userManager;
-            _roleManager = roleManager;
+            //_userManager = userManager;
+            //_roleManager = roleManager;
             _manager = manager;
         }
 
@@ -152,7 +152,7 @@ namespace Services.Concrete
                 foreach (var roleclaim in roleclaims)
                 {
                     var roleclaim1 = _manager.claim.GetClaimById(roleclaim.Claims_Id).Result;
-                    claims.Add(new Claim("Type", roleclaim1.ClaimsName));
+                    claims.Add(new Claim(roleclaim1.ClaimType, roleclaim1.ClaimsName));
                 }
 
             }

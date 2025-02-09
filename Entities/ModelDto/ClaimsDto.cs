@@ -10,5 +10,6 @@ namespace Entities.ModelDto
     {
         public int Claims_Id { get; set; }
         public string? ClaimsName { get; set; }
+        public string ClaimType { get; set; }
     }
 }
