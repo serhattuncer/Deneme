@@ -20,20 +20,7 @@ namespace Services.Concrete
             _mapper = mapper;
             _manager = manager;
         }
-        public async Task CreateUserRole(UserRolesDto userrolesDto)
-        {
-            try
-            {
-                var data = _mapper.Map<UserRoles>(userrolesDto);
-                await _manager.UserRoles.Create(data);
-                await _manager.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-
-                new Exception("message:" + e);
-            }
-        }
+     
 
         public async Task CreateUserRoleList(UserRoleListDto userRolesListDto)
         {
@@ -70,14 +57,6 @@ namespace Services.Concrete
             }
         }
 
-        public async Task DeleteUserRole(int id)
-        {
-            var data = _manager.UserRoles.GetById(id).Result;
-            data.IsDeleted = true;
-            _manager.UserRoles.Delete(data);
-            await _manager.SaveChangesAsync();
-        }
-
         public async Task DeleteUserRoleList(int UserId)
         {
             var rolelist = _manager.UserRoles.GetAll().Result.Where(w => w.User_Id == UserId).ToList();
@@ -98,11 +77,5 @@ namespace Services.Concrete
             return await _manager.UserRoles.GetById(id);
         }
 
-        public async Task UpdateUserRole(UserRolesDto userrolesDto)
-        {
-            var data = _mapper.Map<UserRoles>(userrolesDto);
-            _manager.UserRoles.Update(data);
-            await _manager.SaveChangesAsync();
-        }
     }
 }

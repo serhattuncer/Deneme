@@ -1,4 +1,5 @@
 ﻿using Dastone.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -12,7 +13,7 @@ namespace Dastone.Controllers
         {
             _logger = logger;
         }
-
+       // [Authorize(Policy = "Read")]
         public IActionResult Index()
         {
             return View();

@@ -26,7 +26,8 @@ namespace Dastone.Controllers
         {
             return View();
         }
-        public async Task<IActionResult> Login(UserLoginDto user)
+        [HttpPost]
+        public async Task<IActionResult> Login([FromBody] UserLoginDto user)
         {
             try
             {
@@ -121,6 +122,11 @@ namespace Dastone.Controllers
                 ModelState.AddModelError("", "Giriş sunucu hatası.");
                 return RedirectToAction("Index", "Authentication");
             }
+        }
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();   
         }
         public async Task<IActionResult> LogOut()
         {

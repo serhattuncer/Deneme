@@ -16,31 +16,7 @@ namespace Presentation.Controllers
         {
             _manager = manager;
         }
-        [HttpGet("get-userroles")]
-        public async Task<IActionResult> GetList()
-        {
-            try
-            {
-                Log.Information("İnformation Get UserRoles");
-                var list = _manager.userrole.GetAllUserRoles().Result.Where(w => w.IsDeleted == false).ToList();
-                if (list is null)
-                {
-                    return NotFound("Veri Bulunamadı.");
-                }
 
-
-
-                return Ok(list);
-
-            }
-            catch (Exception ex)
-            {
-                Log.Error("Error Get UserRoles");
-                throw new Exception("Error Message:{0}", ex);
-            }
-
-        }
-        
         [HttpPost("get-user-roles-by-userroleid/{id}")]
         public async Task<IActionResult> GetListByUserRoleId(int id)
         {
@@ -65,28 +41,6 @@ namespace Presentation.Controllers
         }
 
 
-        [HttpGet("get-userrole-by-id/{id}")]
-        public async Task<IActionResult> GetUserRoleById(int id)
-        {
-            try
-            {
-                Log.Information("İnformation Get UserRoleById");
-                var result = await _manager.userrole.GetUserRoleById(id);
-                if (result is null)
-                {
-                    return NotFound(id + "Numaralı Id'ye ait veri bulunamadı.");
-                }
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                Log.Error("Error Get UserRoleById");
-                throw new Exception("Error Message:{0}", ex); ;
-            }
-
-        }
-
-
         [HttpPost("create-userrole-list")]
         public async Task<IActionResult> CreateUserRole(UserRoleListDto userRolesListDto)
         {
@@ -100,25 +54,6 @@ namespace Presentation.Controllers
             {
 
                 Log.Error("Error Create UserRole");
-                throw new Exception("Error Message:{0}", ex);
-            }
-
-        }
-
-
-        [HttpPut("update-userrole")]
-        public async Task<IActionResult> UpdateUserRole(UserRolesDto userrolesDto)
-        {
-            try
-            {
-                Log.Information("İnformation Update UserRole");
-                await _manager.userrole.UpdateUserRole(userrolesDto);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-
-                Log.Error("Error Update UserRole");
                 throw new Exception("Error Message:{0}", ex);
             }
 

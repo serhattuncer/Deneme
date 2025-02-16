@@ -12,9 +12,6 @@ namespace Services.Abstract
     {
         Task<List<UserRoles>> GetAllUserRoles();
         Task<UserRoles> GetUserRoleById(int id);
-        Task CreateUserRole(UserRolesDto userrolesDto);
-        Task UpdateUserRole(UserRolesDto userrolesDto);
-        Task DeleteUserRole(int id);
         Task DeleteUserRoleList(int UserId);
         Task CreateUserRoleList(UserRoleListDto userRolesListDto);
     }

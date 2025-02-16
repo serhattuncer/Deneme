@@ -62,8 +62,6 @@ namespace Services.Concrete
 
         }
 
-        
-
         public async Task DeleteUserClaimList(int UserId)
         {
             var claimslist = _manager.UserClaims.GetAll().Result.Where(w => w.User_Id == UserId).ToList();

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Services.Concrete
 {
@@ -58,7 +59,17 @@ namespace Services.Concrete
 
         public async Task<Users> GetUserByName(string userName)
         {
-            return await _manager.User.GetByName(userName);
+            try
+            {
+                var data= _manager.User.GetAll().Result.Where(w=>w.UserName==userName).FirstOrDefault();
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            return _manager.User.GetAll().Result.Where(w => w.UserName == userName).FirstOrDefault();
+
         }
 
         public async Task UpdateUser(UsersDto usersDto)

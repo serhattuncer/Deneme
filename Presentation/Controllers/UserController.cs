@@ -63,7 +63,7 @@ namespace Presentation.Controllers
 
         }
 
-        //[Authorize(Policy = "CreateUser")]
+        [Authorize(Policy = "CreateUser")]
         [HttpPost("create-user")]
         public async Task<IActionResult> CreateUser(UsersDto usersDto)
         {
@@ -101,8 +101,8 @@ namespace Presentation.Controllers
 
         }
 
-        [Authorize(Policy = "DeleteUser")]
-        [HttpPost("delete-user/{id}")]
+       [Authorize(Policy = "DeleteUser")]
+       [HttpPost("delete-user/{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
             try

@@ -10,15 +10,15 @@ namespace Presentation.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IAuthenticationService _authentication;
-        private readonly ILogger _logger;
-        public AuthenticationController(IAuthenticationService authentication, ILogger logger)
+      
+        public AuthenticationController(IAuthenticationService authentication)
         {
             _authentication = authentication;
-            _logger = logger;
+            
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Authenticate([FromBody] LoginUserDto user)
+        public async Task<IActionResult> Authenticate( LoginUserDto user)
         {
             if (!await _authentication.ValidateUser(user))
             {

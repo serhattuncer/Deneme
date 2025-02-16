@@ -156,6 +156,31 @@ namespace Presentation.Extension
 
                 options.AddPolicy("DeleteClaim", policy =>
                 policy.RequireClaim("Claim", "DeleteClaim").RequireAuthenticatedUser());
+
+                //Kullanıcı Yetkileri ile ilgili yetkiler
+                options.AddPolicy("GetUserClaims", policy =>
+                policy.RequireClaim("UserClaims", "GetUserClaims").RequireAuthenticatedUser());
+                options.AddPolicy("CreateUserClaims", policy =>
+                policy.RequireClaim("UserClaims", "CreateUserClaims").RequireAuthenticatedUser());
+                options.AddPolicy("DeleteUserClaims", policy =>
+                policy.RequireClaim("UserClaims", "DeleteUserClaims").RequireAuthenticatedUser());
+
+                //Rol Yetkileri ile ilgili yetkiler
+                options.AddPolicy("GetRoleClaims", policy =>
+                policy.RequireClaim("RoleClaims", "GetRoleClaims").RequireAuthenticatedUser());
+                options.AddPolicy("CreateRoleClaims", policy =>
+                policy.RequireClaim("RoleClaims", "CreateRoleClaims").RequireAuthenticatedUser());
+                options.AddPolicy("DeleteRoleClaims", policy =>
+                policy.RequireClaim("RoleClaims", "DeleteRoleClaims").RequireAuthenticatedUser());
+
+                //Kullanıcı Rol ile ilgili yetkiler
+                options.AddPolicy("GetUserRoles", policy =>
+                policy.RequireClaim("UserRoles", "GetUserRoles").RequireAuthenticatedUser());
+                options.AddPolicy("CreateUserRoles", policy =>
+                policy.RequireClaim("UserRoles", "CreateUserRoles").RequireAuthenticatedUser());
+                options.AddPolicy("DeleteUserRoles", policy =>
+                policy.RequireClaim("UserRoles", "DeleteUserRoles").RequireAuthenticatedUser());
+
             });
             return services;
         }

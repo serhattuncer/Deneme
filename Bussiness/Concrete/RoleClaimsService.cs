@@ -21,20 +21,6 @@ namespace Services.Concrete
             _mapper = mapper;
             _manager = manager;
         }
-        public async Task CreateRoleClaim(RoleClaimsDto roleclaimsDto)
-        {
-            try
-            {
-                var data = _mapper.Map<RoleClaims>(roleclaimsDto);
-                await _manager.RoleClaims.Create(data);
-                await _manager.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-
-                new Exception("message:" + e);
-            }
-        }
 
         public async Task CreateRoleClaimList(RoleClaimsListDto roleClaimsListDto)
         {
@@ -71,14 +57,6 @@ namespace Services.Concrete
             }
         }
 
-        public async Task DeleteRoleClaim(int id)
-        {
-            var data = _manager.RoleClaims.GetById(id).Result;
-            data.IsDeleted = true;
-            _manager.RoleClaims.Delete(data);
-            await _manager.SaveChangesAsync();
-        }
-
         public async Task DeleteRoleClaimList(int RoleId)
         {
             var claimslist = _manager.RoleClaims.GetAll().Result.Where(w => w.Role_Id == RoleId).ToList();
@@ -99,11 +77,6 @@ namespace Services.Concrete
             return await _manager.RoleClaims.GetById(id);
         }
 
-        public async Task UpdateRoleClaim(RoleClaimsDto roleclaimsDto)
-        {
-            var data = _mapper.Map<RoleClaims>(roleclaimsDto);
-            _manager.RoleClaims.Update(data);
-            await _manager.SaveChangesAsync();
-        }
+        
     }
 }

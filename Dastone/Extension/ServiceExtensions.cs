@@ -13,99 +13,106 @@ namespace Dastone.Extension
         {
             services.AddAuthorization(options =>
             {
-                // Brand Policies
-                options.AddPolicy("GetBrand", policy =>
-                    policy.RequireClaim("Brand", "GetBrand").RequireAuthenticatedUser());
-                options.AddPolicy("CreateBrand", policy =>
-                    policy.RequireClaim("Brand", "CreateBrand").RequireAuthenticatedUser());
-                options.AddPolicy("DeleteBrand", policy =>
-                    policy.RequireClaim("Brand", "DeleteBrand").RequireAuthenticatedUser());
-                options.AddPolicy("UpdateBrand", policy =>
-                    policy.RequireClaim("Brand", "UpdateBrand").RequireAuthenticatedUser());
-                // Model Policies
-                options.AddPolicy("GetModel", policy =>
-                    policy.RequireClaim("Model", "GetModel").RequireAuthenticatedUser());
-                options.AddPolicy("CreateModel", policy =>
-                    policy.RequireClaim("Model", "CreateModel").RequireAuthenticatedUser());
-                options.AddPolicy("DeleteModel", policy =>
-                    policy.RequireClaim("Model", "DeleteModel").RequireAuthenticatedUser());
-                options.AddPolicy("UpdateModel", policy =>
-                    policy.RequireClaim("Model", "UpdateModel").RequireAuthenticatedUser());
-                // MeasurementUnit Policies
-                options.AddPolicy("GetMeasurementUnit", policy =>
-                    policy.RequireClaim("MeasurementUnit", "GetMeasurementUnit").RequireAuthenticatedUser());
-                options.AddPolicy("CreateMeasurementUnit", policy =>
-                    policy.RequireClaim("MeasurementUnit", "CreateMeasurementUnit").RequireAuthenticatedUser());
-                options.AddPolicy("DeleteMeasurementUnit", policy =>
-                    policy.RequireClaim("MeasurementUnit", "DeleteMeasurementUnit").RequireAuthenticatedUser());
-                options.AddPolicy("UpdateMeasurementUnit", policy =>
-                    policy.RequireClaim("MeasurementUnit", "UpdateMeasurementUnit").RequireAuthenticatedUser());
-                // Supplier Policies
-                options.AddPolicy("GetSupplier", policy =>
-                    policy.RequireClaim("Supplier", "GetSupplier").RequireAuthenticatedUser());
-                options.AddPolicy("CreateSupplier", policy =>
-                    policy.RequireClaim("Supplier", "CreateSupplier").RequireAuthenticatedUser());
-                options.AddPolicy("DeleteSupplier", policy =>
-                    policy.RequireClaim("Supplier", "DeleteSupplier").RequireAuthenticatedUser());
-                options.AddPolicy("UpdateSupplier", policy =>
-                    policy.RequireClaim("Supplier", "UpdateSupplier").RequireAuthenticatedUser());
-                // Consumable Policies
-                options.AddPolicy("GetConsumable", policy =>
-                    policy.RequireClaim("Consumable", "GetConsumable").RequireAuthenticatedUser());
-                options.AddPolicy("CreateConsumable", policy =>
-                    policy.RequireClaim("Consumable", "CreateConsumable").RequireAuthenticatedUser());
-                options.AddPolicy("DeleteConsumable", policy =>
-                    policy.RequireClaim("Consumable", "DeleteConsumable").RequireAuthenticatedUser());
-                options.AddPolicy("UpdateConsumable", policy =>
-                    policy.RequireClaim("Consumable", "UpdateConsumable").RequireAuthenticatedUser());
-                // Product Policies
-                options.AddPolicy("GetProduct", policy =>
-                    policy.RequireClaim("Product", "GetProduct").RequireAuthenticatedUser());
-                options.AddPolicy("CreateProduct", policy =>
-                    policy.RequireClaim("Product", "CreateProduct").RequireAuthenticatedUser());
-                options.AddPolicy("DeleteProduct", policy =>
-                    policy.RequireClaim("Product", "DeleteProduct").RequireAuthenticatedUser());
-                options.AddPolicy("UpdateProduct", policy =>
-                    policy.RequireClaim("Product", "UpdateProduct").RequireAuthenticatedUser());
-                // ProductType Policies
-                options.AddPolicy("GetProductType", policy =>
-                   policy.RequireClaim("ProductType", "GetProductType").RequireAuthenticatedUser());
-                options.AddPolicy("CreateProductType", policy =>
-                   policy.RequireClaim("ProductType", "CreateProductType").RequireAuthenticatedUser());
-                options.AddPolicy("UpdateProductType", policy =>
-                   policy.RequireClaim("ProductType", "UpdateProductType").RequireAuthenticatedUser());
-                options.AddPolicy("DeleteProductType", policy =>
-                   policy.RequireClaim("ProductType", "DeleteProductType").RequireAuthenticatedUser());
+                options.AddPolicy("GetBooks", policy =>
+               policy.RequireClaim("Book", "GetBooks").RequireAuthenticatedUser());
 
-                // Warehouse Policies
-                options.AddPolicy("GetWarehouse", policy =>
-                   policy.RequireClaim("Warehouse", "GetWarehouse").RequireAuthenticatedUser());
-                options.AddPolicy("CreateWarehouse", policy =>
-                   policy.RequireClaim("Warehouse", "CreateWarehouse").RequireAuthenticatedUser());
-                options.AddPolicy("UpdateWarehouse", policy =>
-                   policy.RequireClaim("Warehouse", "UpdateWarehouse").RequireAuthenticatedUser());
-                options.AddPolicy("DeleteWarehouse", policy =>
-                   policy.RequireClaim("Warehouse", "DeleteWarehouse").RequireAuthenticatedUser());
-                // Inventory Policies
-                options.AddPolicy("GetInventoryStock", policy =>
-                policy.RequireClaim("InventoryStock", "GetInventoryStock").RequireAuthenticatedUser());
-                options.AddPolicy("CreateInventoryStock", policy =>
-                   policy.RequireClaim("InventoryStock", "CreateInventoryStock").RequireAuthenticatedUser());
-                options.AddPolicy("UpdateInventoryStock", policy =>
-                   policy.RequireClaim("InventoryStock", "UpdateInventoryStock").RequireAuthenticatedUser());
-                options.AddPolicy("DeleteInventoryStock", policy =>
-                   policy.RequireClaim("InventoryStock", "DeleteInventoryStock").RequireAuthenticatedUser());
+                options.AddPolicy("GetBookById", policy =>
+                policy.RequireClaim("Book", "GetBookById").RequireAuthenticatedUser());
+
+                options.AddPolicy("CreateBook", policy =>
+                policy.RequireClaim("Book", "CreateBook").RequireAuthenticatedUser());
+
+                options.AddPolicy("UpdateBook", policy =>
+                policy.RequireClaim("Book", "UpdateBook").RequireAuthenticatedUser());
+
+                options.AddPolicy("DeleteBook", policy =>
+                policy.RequireClaim("Book", "DeleteBook").RequireAuthenticatedUser());
+
+                //Yazar ile ilgili yetkiler
+                options.AddPolicy("GetAuthors", policy =>
+                policy.RequireClaim("Author", "GetAuthors").RequireAuthenticatedUser());
+
+                options.AddPolicy("GetAuthorById", policy =>
+                policy.RequireClaim("Author", "GetAuthorById").RequireAuthenticatedUser());
+
+                options.AddPolicy("CreateAuthor", policy =>
+                policy.RequireClaim("Author", "CreateAuthor").RequireAuthenticatedUser());
+
+                options.AddPolicy("UpdateAuthor", policy =>
+                policy.RequireClaim("Author", "UpdateAuthor").RequireAuthenticatedUser());
+
+                options.AddPolicy("DeleteAuthor", policy =>
+                policy.RequireClaim("Author", "DeleteAuthor").RequireAuthenticatedUser());
+
+                //Yayınevi ile ilgili yetkiler
+                options.AddPolicy("GetPublishingHouses", policy =>
+                policy.RequireClaim("PublishingHouse", "GetPublishingHouses").RequireAuthenticatedUser());
+
+                options.AddPolicy("GetPublishingHouseById", policy =>
+                policy.RequireClaim("PublishingHouse", "GetPublishingHouseById").RequireAuthenticatedUser());
+
+                options.AddPolicy("CreatePublishingHouse", policy =>
+                policy.RequireClaim("PublishingHosue", "CreatePublishingHouse").RequireAuthenticatedUser());
+
+                options.AddPolicy("UpdatePublishingHouse", policy =>
+                policy.RequireClaim("PublishingHosue", "UpdatePublishingHouse").RequireAuthenticatedUser());
+
+                options.AddPolicy("DeleteAuthor", policy =>
+                policy.RequireClaim("PublishingHosue", "DeletePublishingHouse").RequireAuthenticatedUser());
+
+                //Kullanıcı ile ilgili yetkiler
+                options.AddPolicy("GetUsers", policy =>
+                policy.RequireClaim("User", "GetUsers").RequireAuthenticatedUser());
+
+                options.AddPolicy("GetUserById", policy =>
+                policy.RequireClaim("User", "GetUserById").RequireAuthenticatedUser());
+
+                options.AddPolicy("CreateUser", policy =>
+                policy.RequireClaim("User", "CreateUser").RequireAuthenticatedUser());
+
+                options.AddPolicy("UpdateUser", policy =>
+                policy.RequireClaim("User", "UpdateUser").RequireAuthenticatedUser());
+
+                options.AddPolicy("DeleteUser", policy =>
+                policy.RequireClaim("User", "DeleteUser").RequireAuthenticatedUser());
 
 
-                // StockChange Policies
-                options.AddPolicy("GetStockChange", policy =>
-                   policy.RequireClaim("StockChange", "GetStockChange").RequireAuthenticatedUser());
-                options.AddPolicy("CreateStockChange", policy =>
-                   policy.RequireClaim("StockChange", "CreateStockChange").RequireAuthenticatedUser());
-                options.AddPolicy("UpdateStockChange", policy =>
-                   policy.RequireClaim("StockChange", "UpdateStockChange").RequireAuthenticatedUser());
-                options.AddPolicy("DeleteStockChange", policy =>
-                   policy.RequireClaim("StockChange", "DeleteStockChange").RequireAuthenticatedUser());
+                //Rol ile ilgili yetkiler
+                options.AddPolicy("GetRoles", policy =>
+                policy.RequireClaim("Role", "GetRoles").RequireAuthenticatedUser());
+
+                options.AddPolicy("GetRoleById", policy =>
+                policy.RequireClaim("Role", "GetRoleById").RequireAuthenticatedUser());
+
+                options.AddPolicy("CreateRole", policy =>
+                policy.RequireClaim("Role", "CreateRole").RequireAuthenticatedUser());
+
+                options.AddPolicy("UpdateRole", policy =>
+                policy.RequireClaim("Role", "UpdateRole").RequireAuthenticatedUser());
+
+                options.AddPolicy("DeleteRole", policy =>
+                policy.RequireClaim("Role", "DeleteRole").RequireAuthenticatedUser());
+
+                //Yetki ile ilgili yetkiler
+                options.AddPolicy("GetClaims", policy =>
+                policy.RequireClaim("Claim", "GetClaims").RequireAuthenticatedUser());
+
+                options.AddPolicy("GetClaimById", policy =>
+                policy.RequireClaim("Claim", "GetClaimById").RequireAuthenticatedUser());
+
+                options.AddPolicy("CreateClaim", policy =>
+                policy.RequireClaim("Claim", "CreateClaim").RequireAuthenticatedUser());
+
+                options.AddPolicy("UpdateClaim", policy =>
+                policy.RequireClaim("Claim", "UpdateClaim").RequireAuthenticatedUser());
+
+                options.AddPolicy("DeleteClaim", policy =>
+                policy.RequireClaim("Claim", "DeleteClaim").RequireAuthenticatedUser());
+
+                //Home ile ilgili yetkiler
+                options.AddPolicy("Read", policy =>
+               policy.RequireClaim("Home", "Read").RequireAuthenticatedUser());
+
             });
 
             return services;

@@ -44,7 +44,7 @@ namespace Presentation.Controllers
 
         }
 
-        [Authorize(Policy = "GetRoleById")]
+       [Authorize(Policy = "GetRoleById")]
         [HttpGet("get-role-by-id{id}")]
         public async Task<IActionResult> GetRoleById(int id)
         {

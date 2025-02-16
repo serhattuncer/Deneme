@@ -17,30 +17,7 @@ namespace Presentation.Controllers
         {
             _manager = manager;
         }
-        [HttpGet("get-userclaims")]
-        public async Task<IActionResult> GetList()
-        {
-            try
-            {
-                Log.Information("İnformation Get UserClaims");
-                var list = _manager.userclaim.GetAllUserClaims().Result.Where(w => w.IsDeleted == false).ToList();
-                if (list is null)
-                {
-                    return NotFound("Veri Bulunamadı.");
-                }
-
-
-
-                return Ok(list);
-
-            }
-            catch (Exception ex)
-            {
-                Log.Error("Error Get UserClaims");
-                throw new Exception("Error Message:{0}", ex);
-            }
-
-        }
+       
         [HttpPost("get-user-claims-by-userid/{id}")]
         public async Task<IActionResult> GetListByUserId(int id)
         {
@@ -60,28 +37,6 @@ namespace Presentation.Controllers
             {
                 Log.Error("Error Get UserClaims");
                 throw new Exception("Error Message:{0}", ex);
-            }
-
-        }
-
-
-        [HttpGet("get-userclaim-by-id/{id}")]
-        public async Task<IActionResult> GetUserClaimById(int id)
-        {
-            try
-            {
-                Log.Information("İnformation Get UserClaimById");
-                var result = await _manager.userclaim.GetUserClaimById(id);
-                if (result is null)
-                {
-                    return NotFound(id + "Numaralı Id'ye ait veri bulunamadı.");
-                }
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                Log.Error("Error Get UserClaimById");
-                throw new Exception("Error Message:{0}", ex); ;
             }
 
         }
